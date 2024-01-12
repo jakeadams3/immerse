@@ -20,7 +20,7 @@ struct VideoPlayerView: UIViewRepresentable {
         playerLayer.videoGravity = .resizeAspect
         view.layer.addSublayer(playerLayer)
 
-        return view // this comment is for test commit
+        return view // last integration check
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
