@@ -9,22 +9,29 @@ import SwiftUI
 import FirebaseCore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-    return true
-  }
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        return true
+    }
 }
 
 @main
-struct TikTokCloneApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    private let authService = AuthService()
-    private let userService = UserService()
-    
+struct EnvironmentApp: App {
+    //Select immersionStyle
+    @State private var immersionStyle: ImmersionStyle = .full
     var body: some Scene {
+        // StartView WindowGroup is completely unused currently, you can remove it and nothing will change (perhaps edit the plist to have the window display properly)
         WindowGroup {
-            ContentView(authService: authService, userService: userService)
+            //Starting Window to control entry in the ImmersiveSpace
+            StartView()
         }
+        
+        ImmersiveSpace(id: "Environment") {
+            //struct with the RealityView
+            EnvironmentRV()
+        }
+        .immersionStyle(selection: $immersionStyle, in: .full)
+        
     }
 }
