@@ -84,7 +84,7 @@
 		576F16AB2B0BC1EB0071ACC7 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AA2B0BC1EB0071ACC7 /* FirebaseFirestoreSwift */; };
 		576F16AD2B0BC1F60071ACC7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AC2B0BC1F60071ACC7 /* FirebaseStorage */; };
 		576F16AF2B0BC1FE0071ACC7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AE2B0BC1FE0071ACC7 /* FirebaseAuth */; };
-		579115852B58DAC3009B3283 /* CurvedScreen.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 579115842B58DAC3009B3283 /* CurvedScreen.usdz */; };
+		5791158D2B5A39B9009B3283 /* CurvedScreen.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 5791158C2B5A39B9009B3283 /* CurvedScreen.usdz */; };
 		57D017A52B0C16A100276F16 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 57D017A42B0C16A100276F16 /* Kingfisher */; };
 		57DF93FE2B1AA963006814D9 /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -165,7 +165,7 @@
 		574E9BD62B098B34005F3C86 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		574E9BD72B098B34005F3C86 /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		574E9C1B2B09AB35005F3C86 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		579115842B58DAC3009B3283 /* CurvedScreen.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = CurvedScreen.usdz; sourceTree = "<group>"; };
+		5791158C2B5A39B9009B3283 /* CurvedScreen.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = CurvedScreen.usdz; sourceTree = "<group>"; };
 		57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -617,7 +617,7 @@
 				574E9BC22B098B34005F3C86 /* TikTokCloneApp.swift */,
 				574883B02B55F531005295DF /* EnvironmentRV.swift */,
 				574883B22B55F613005295DF /* StartView.swift */,
-				579115842B58DAC3009B3283 /* CurvedScreen.usdz */,
+				5791158C2B5A39B9009B3283 /* CurvedScreen.usdz */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -767,8 +767,8 @@
 				574E9C1C2B09AB36005F3C86 /* GoogleService-Info.plist in Resources */,
 				574E9C122B098B34005F3C86 /* Preview Assets.xcassets in Resources */,
 				574E9C0D2B098B34005F3C86 /* Assets.xcassets in Resources */,
-				579115852B58DAC3009B3283 /* CurvedScreen.usdz in Resources */,
 				574E9B572B098A8C005F3C86 /* ImageBasedLighting.skybox in Resources */,
+				5791158D2B5A39B9009B3283 /* CurvedScreen.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

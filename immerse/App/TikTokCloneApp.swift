@@ -17,18 +17,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct EnvironmentApp: App {
+struct TikTokCloneApp: App {
     //Select immersionStyle
     @State private var immersionStyle: ImmersionStyle = .full
     var body: some Scene {
-        // StartView WindowGroup is completely unused currently, you can remove it and nothing will change (perhaps edit the plist to have the window display properly)
+
         WindowGroup {
             //Starting Window to control entry in the ImmersiveSpace
             StartView()
         }
         
         ImmersiveSpace(id: "Environment") {
-            //struct with the RealityView
+            //Struct with the RealityView
             EnvironmentRV()
         }
         .immersionStyle(selection: $immersionStyle, in: .full)
