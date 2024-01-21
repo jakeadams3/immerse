@@ -1,8 +1,7 @@
 //
 //  Firestore+Timestamp.swift
-//  TikTokClone
+//  immerse
 //
-//  Created by Stephan Dowless on 10/11/23.
 //
 
 import Firebase

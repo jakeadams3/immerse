@@ -1,8 +1,7 @@
 //
 //  FeedView.swift
-//  TikTokClone
+//  immerse
 //
-//  Created by Stephan Dowless on 10/6/23.
 //
 
 import SwiftUI

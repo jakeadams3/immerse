@@ -2,7 +2,6 @@
 //  StartView.swift
 //  immerse
 //
-//  Created by Jake Adams on 1/15/24.
 //
 
 import SwiftUI

@@ -1,8 +1,7 @@
 //
 //  FeedCellActionButtonView.swift
-//  TikTokClone
+//  immerse
 //
-//  Created by Stephan Dowless on 10/13/23.
 //
 
 import SwiftUI

@@ -64,7 +64,7 @@
 		574E9C092B098B34005F3C86 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9BBD2B098B34005F3C86 /* NotificationCell.swift */; };
 		574E9C0A2B098B34005F3C86 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9BBE2B098B34005F3C86 /* NotificationsView.swift */; };
 		574E9C0B2B098B34005F3C86 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9BC02B098B34005F3C86 /* NotificationService.swift */; };
-		574E9C0C2B098B34005F3C86 /* TikTokCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9BC22B098B34005F3C86 /* TikTokCloneApp.swift */; };
+		574E9C0C2B098B34005F3C86 /* ImmerseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9BC22B098B34005F3C86 /* ImmerseApp.swift */; };
 		574E9C0D2B098B34005F3C86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 574E9BC32B098B34005F3C86 /* Assets.xcassets */; };
 		574E9C0E2B098B34005F3C86 /* StandardTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9BC62B098B34005F3C86 /* StandardTextFieldModifier.swift */; };
 		574E9C0F2B098B34005F3C86 /* StandardButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9BC72B098B34005F3C86 /* StandardButtonModifier.swift */; };
@@ -149,7 +149,7 @@
 		574E9BBD2B098B34005F3C86 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		574E9BBE2B098B34005F3C86 /* NotificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		574E9BC02B098B34005F3C86 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		574E9BC22B098B34005F3C86 /* TikTokCloneApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TikTokCloneApp.swift; sourceTree = "<group>"; };
+		574E9BC22B098B34005F3C86 /* ImmerseApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImmerseApp.swift; sourceTree = "<group>"; };
 		574E9BC32B098B34005F3C86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		574E9BC62B098B34005F3C86 /* StandardTextFieldModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardTextFieldModifier.swift; sourceTree = "<group>"; };
 		574E9BC72B098B34005F3C86 /* StandardButtonModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardButtonModifier.swift; sourceTree = "<group>"; };
@@ -614,7 +614,7 @@
 		574E9BC12B098B34005F3C86 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				574E9BC22B098B34005F3C86 /* TikTokCloneApp.swift */,
+				574E9BC22B098B34005F3C86 /* ImmerseApp.swift */,
 				574883B02B55F531005295DF /* EnvironmentRV.swift */,
 				574883B22B55F613005295DF /* StartView.swift */,
 				5791158C2B5A39B9009B3283 /* CurvedScreen.usdz */,
@@ -790,7 +790,7 @@
 				574E9BD92B098B34005F3C86 /* Comment.swift in Sources */,
 				574E9C142B098B34005F3C86 /* DeveloperPreview.swift in Sources */,
 				574E9C092B098B34005F3C86 /* NotificationCell.swift in Sources */,
-				574E9C0C2B098B34005F3C86 /* TikTokCloneApp.swift in Sources */,
+				574E9C0C2B098B34005F3C86 /* ImmerseApp.swift in Sources */,
 				574E9BF32B098B34005F3C86 /* PostGridView.swift in Sources */,
 				574E9C012B098B34005F3C86 /* MockAuthService.swift in Sources */,
 				574E9BE02B098B34005F3C86 /* UploadPostView.swift in Sources */,

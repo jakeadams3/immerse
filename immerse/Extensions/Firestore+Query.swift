@@ -1,8 +1,7 @@
 //
 //  Firestore+Query.swift
-//  TikTokClone
+//  immerse
 //
-//  Created by Stephan Dowless on 10/10/23.
 //
 
 import Firebase

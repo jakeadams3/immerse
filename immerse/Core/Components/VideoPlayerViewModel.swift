@@ -2,7 +2,6 @@
 //  VideoPlayerViewModel.swift
 //  immerse
 //
-//  Created by Jake Adams on 12/1/23.
 //
 
 import AVKit

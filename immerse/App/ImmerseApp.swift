@@ -1,8 +1,7 @@
 //
-//  TikTokCloneApp.swift
-//  TikTokClone
+//  ImmerseApp.swift
+//  immerse
 //
-//  Created by Stephan Dowless on 10/6/23.
 //
 
 import SwiftUI
@@ -17,7 +16,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct TikTokCloneApp: App {
+struct ImmerseApp: App {
     //Select immersionStyle
     @State private var immersionStyle: ImmersionStyle = .full
     var body: some Scene {

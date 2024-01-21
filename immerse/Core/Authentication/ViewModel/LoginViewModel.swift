@@ -1,8 +1,7 @@
 //
 //  LoginViewModel.swift
-//  TikTokClone
+//  immerse
 //
-//  Created by Stephan Dowless on 10/9/23.
 //
 
 import FirebaseAuth
