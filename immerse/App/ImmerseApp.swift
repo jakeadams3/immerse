@@ -25,10 +25,11 @@ struct ImmerseApp: App {
             //Starting Window to control entry in the ImmersiveSpace
             StartView()
         }
+        .defaultSize(CGSize(width: 100, height: 100))
         
         ImmersiveSpace(id: "Environment") {
             //Struct with the RealityView
-            EnvironmentRV()
+            CustomScreenView()
         }
         .immersionStyle(selection: $immersionStyle, in: .full)
         

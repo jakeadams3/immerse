@@ -9,7 +9,7 @@ import AVFoundation
 import AVKit
 import RealityKit
 
-struct EnvironmentRV: View {
+struct CustomScreenView: View {
     var body: some View {
         RealityView() { content in
             // Use the URL of the video from the web
@@ -57,5 +57,5 @@ struct EnvironmentRV: View {
 }
 
 #Preview {
-    EnvironmentRV()
+    CustomScreenView()
 }
