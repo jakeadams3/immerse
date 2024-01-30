@@ -8,30 +8,23 @@ import SwiftUI
 import FirebaseCore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        FirebaseApp.configure()
-        return true
-    }
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+    return true
+  }
 }
 
 @main
-struct ImmerseApp: App {
-    //Select immersionStyle
-    @State private var immersionStyle: ImmersionStyle = .full
+struct TikTokCloneApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    private let authService = AuthService()
+    private let userService = UserService()
+    
     var body: some Scene {
-
         WindowGroup {
-            //Starting Window to control entry in the ImmersiveSpace
-            StartView()
+            ContentView(authService: authService, userService: userService)
         }
-        .defaultSize(CGSize(width: 100, height: 100))
-        
-        ImmersiveSpace(id: "Environment") {
-            //Struct with the RealityView
-            CustomScreenView()
-        }
-        .immersionStyle(selection: $immersionStyle, in: .full)
-        
+        .defaultSize(CGSize(width: 2400, height: 1350))
     }
 }

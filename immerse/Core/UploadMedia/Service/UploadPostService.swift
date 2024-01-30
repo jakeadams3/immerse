@@ -32,22 +32,22 @@ struct UploadPostService {
 
             guard let postData = try? Firestore.Encoder().encode(post) else { return }
             try await ref.setData(postData)
-//            async let _ = try updateThumbnailUrl(fromVideoUrl: videoUrl, postId: ref.documentID)
+            async let _ = try updateThumbnailUrl(fromVideoUrl: videoUrl, postId: ref.documentID)
         } catch {
             print("DEBUG: Failed to upload image with error \(error.localizedDescription)")
             throw error
         }
     }
     
-//    func updateThumbnailUrl(fromVideoUrl videoUrl: String, postId: String) async throws {
-//        do {
-//            guard let image = MediaHelpers.generateThumbnail(path: videoUrl) else { return }
-//            guard let thumbnailUrl = try await ImageUploader.uploadImage(image: image, type: .post) else { return }
-//            try await FirestoreConstants.PostsCollection.document(postId).updateData([
-//                "thumbnailUrl": thumbnailUrl
-//            ])
-//        } catch {
-//            throw error
-//        }
-//    }
+    func updateThumbnailUrl(fromVideoUrl videoUrl: String, postId: String) async throws {
+        do {
+            guard let image = await MediaHelpers.generateThumbnail(path: videoUrl) else { return }
+            guard let thumbnailUrl = try await ImageUploader.uploadImage(image: image, type: .post) else { return }
+            try await FirestoreConstants.PostsCollection.document(postId).updateData([
+                "thumbnailUrl": thumbnailUrl
+            ])
+        } catch {
+            throw error
+        }
+    }
 }

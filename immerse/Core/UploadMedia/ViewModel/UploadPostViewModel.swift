@@ -10,6 +10,7 @@ import PhotosUI
 
 @MainActor
 class UploadPostViewModel: ObservableObject {
+    @Published var thumbnailImage: UIImage?
     @Published var isLoading = false
     @Published var error: Error?
     @Published var mediaPreview: Movie?
@@ -60,5 +61,11 @@ class UploadPostViewModel: ObservableObject {
         } catch {
             print("DEBUG: Failed with error \(error.localizedDescription)")
         }
+    }
+}
+
+extension UploadPostViewModel {
+    func loadThumbnail(for movie: Movie) async {
+        thumbnailImage = await MediaHelpers.generateThumbnail(path: movie.url.absoluteString)
     }
 }

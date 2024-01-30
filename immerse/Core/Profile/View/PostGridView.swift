@@ -18,24 +18,27 @@ struct PostGridView: View {
         GridItem(.flexible(), spacing: 1),
         GridItem(.flexible(), spacing: 1),
     ]
-//    private let width = (UIScreen.main.bounds.width / 3) - 2
+    //    private let width = (UIScreen.main.bounds.width / 3) - 2
     
     var body: some View {
-        LazyVGrid(columns: items, spacing: 2) {
-            ForEach(viewModel.posts) { post in
-                KFImage(URL(string: post.thumbnailUrl))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 300, height: 160)
-                    .clipped()
-                    .onTapGesture { selectedPost = post }
-            }
-        }
-        .sheet(item: $selectedPost) { post in
-            FeedView(player: $player, posts: [post])
-                .onDisappear {
-                    player.replaceCurrentItem(with: nil)
+        GeometryReader { geometry in
+            let width = (geometry.size.width / 3) - 2
+            LazyVGrid(columns: items, spacing: 2) {
+                ForEach(viewModel.posts) { post in
+                    KFImage(URL(string: post.thumbnailUrl))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 300, height: 160)
+                        .clipped()
+                        .onTapGesture { selectedPost = post }
                 }
+            }
+            .sheet(item: $selectedPost) { post in
+                FeedView(player: $player, posts: [post])
+                    .onDisappear {
+                        player.replaceCurrentItem(with: nil)
+                    }
+            }
         }
     }
 }

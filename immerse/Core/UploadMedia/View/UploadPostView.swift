@@ -20,13 +20,13 @@ struct UploadPostView: View {
                 
                 Spacer()
                 
-//                if let uiImage = MediaHelpers.generateThumbnail(path: movie.url.absoluteString) {
-//                    Image(uiImage: uiImage)
-//                        .resizable()
-//                        .scaledToFill()
-//                        .frame(width: 88, height: 100)
-//                        .clipShape(RoundedRectangle(cornerRadius: 10))
-//                }
+                if let uiImage = viewModel.thumbnailImage {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 88, height: 100)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
             }
             
             Divider()
@@ -63,6 +63,11 @@ struct UploadPostView: View {
                 } label: {
                     Image(systemName: "chevron.left")
                 }
+            }
+        }
+        .onAppear {
+            Task {
+                await viewModel.loadThumbnail(for: movie)
             }
         }
     }
