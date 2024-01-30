@@ -75,7 +75,7 @@ struct FeedCell: View {
                             }
                             
                             Button {
-                                
+                         // no bookmark functionality currently
                             } label: {
                                 FeedCellActionButtonView(imageName: "bookmark.fill",
                                                          value: post.saveCount,
@@ -85,7 +85,7 @@ struct FeedCell: View {
                             }
                             
                             Button {
-                                
+                         // no sharing functionality currently
                             } label: {
                                 FeedCellActionButtonView(imageName: "arrowshape.turn.up.right.fill",
                                                          value: post.shareCount)

@@ -18,7 +18,6 @@ struct PostGridView: View {
         GridItem(.flexible(), spacing: 1),
         GridItem(.flexible(), spacing: 1),
     ]
-    //    private let width = (UIScreen.main.bounds.width / 3) - 2
     
     var body: some View {
         GeometryReader { geometry in
@@ -28,8 +27,9 @@ struct PostGridView: View {
                     KFImage(URL(string: post.thumbnailUrl))
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 300, height: 160)
+                        .frame(width: width, height: 450)
                         .clipped()
+                        .contentShape(Rectangle())
                         .onTapGesture { selectedPost = post }
                 }
             }
