@@ -33,8 +33,24 @@ struct PostGridView: View {
                         .onTapGesture { selectedPost = post }
                 }
             }
-            .sheet(item: $selectedPost) { post in
+            .fullScreenCover(item: $selectedPost) { post in
                 FeedView(player: $player, posts: [post])
+                    .overlay(
+                        HStack {
+                            Button(action: {
+                                selectedPost = nil // This will dismiss the full-screen cover
+                            }) {
+                                Image(systemName: "arrow.backward")
+                                    .foregroundColor(.black)
+                                    .padding()
+                                    .background(Circle().fill(Color.white.opacity(0.5)))
+                            }
+                            Spacer()
+                        }
+                            .padding(.top)
+                            .padding(.horizontal)
+                        , alignment: .topLeading
+                    )
                     .onDisappear {
                         player.replaceCurrentItem(with: nil)
                     }

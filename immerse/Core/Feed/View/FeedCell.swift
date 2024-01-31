@@ -96,9 +96,17 @@ struct FeedCell: View {
                     .padding(.bottom, viewModel.isContainedInTabBar ? 80 : 12)
                 }
             }
-            .sheet(isPresented: $showComments) {
-                CommentsView(post: post)
-//                    .presentationDetents([.height(UIScreen.main.bounds.height * 0.65)])
+            .fullScreenCover(isPresented: $showComments) {
+                NavigationView {
+                    CommentsView(post: post)
+                        .navigationBarTitle("Comments", displayMode: .inline)
+                        .navigationBarItems(leading: Button(action: {
+                            showComments = false // This will dismiss the full-screen cover
+                        }) {
+                            Image(systemName: "arrow.backward") // Using a system icon for the back button
+                                .foregroundColor(.primary)
+                        })
+                }
             }
             .onTapGesture {
                 switch player.timeControlStatus {
