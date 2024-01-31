@@ -18,15 +18,15 @@ struct FeedCellActionButtonView: View {
             Image(systemName: imageName)
                 .resizable()
                 .frame(width: width, height: height)
-                .foregroundStyle(tintColor ?? .white)
+                .foregroundStyle(tintColor ?? .black)
             
             if value > 0 {
                 Text("\(value)")
-                    .font(.caption)
+                    .font(.subheadline)
                     .fontWeight(.bold)
             }
         }
-        .foregroundStyle(.white)
+        .foregroundStyle(.black)
     }
 }
 

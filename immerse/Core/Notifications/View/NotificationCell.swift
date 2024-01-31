@@ -29,10 +29,12 @@ struct NotificationCell: View {
                 
                 HStack {
                     Text(notification.user?.username ?? "")
+                        .foregroundStyle(.black)
                         .font(.footnote)
                         .fontWeight(.semibold) +
                     
                     Text(notification.type.notificationMessage)
+                        .foregroundStyle(.black)
                         .font(.footnote) +
                     
                     Text(" \(notification.timestamp.timestampString())")

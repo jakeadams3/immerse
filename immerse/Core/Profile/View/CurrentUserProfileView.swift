@@ -38,6 +38,7 @@ struct CurrentUserProfileView: View {
                     }
                     .font(.subheadline)
                     .fontWeight(.semibold)
+                    .foregroundStyle(.black)
                 }
             }
             .task { await profileViewModel.fetchUserPosts() }

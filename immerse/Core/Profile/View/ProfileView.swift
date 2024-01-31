@@ -41,8 +41,8 @@ struct ProfileView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Image(systemName: "chevron.left")
-                        .foregroundStyle(.primaryText)
+                    Image(systemName: "arrow.backward")
+                        .foregroundStyle(.black)
                 }
             }
         }

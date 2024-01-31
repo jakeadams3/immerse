@@ -62,32 +62,31 @@ struct FeedCell: View {
                             Button {
                                 handleLikeTapped()
                             } label: {
-                                FeedCellActionButtonView(imageName: "heart.fill", 
+                                FeedCellActionButtonView(imageName: didLike ? "heart.fill" : "heart",
                                                          value: post.likes,
-                                                         tintColor: didLike ? .red : .white)
+                                                         tintColor: didLike ? .red : .black)
                             }
                             
                             Button {
                                 player.pause()
                                 showComments.toggle()
                             } label: {
-                                FeedCellActionButtonView(imageName: "ellipsis.bubble.fill", value: post.commentCount)
+                                FeedCellActionButtonView(imageName: "ellipsis.bubble", value: post.commentCount)
                             }
                             
                             Button {
                          // no bookmark functionality currently
                             } label: {
-                                FeedCellActionButtonView(imageName: "bookmark.fill",
+                                FeedCellActionButtonView(imageName: "bookmark",
                                                          value: post.saveCount,
                                                          height: 28,
-                                                         width: 22,
-                                                         tintColor: .white)
+                                                         width: 22)
                             }
                             
                             Button {
                          // no sharing functionality currently
                             } label: {
-                                FeedCellActionButtonView(imageName: "arrowshape.turn.up.right.fill",
+                                FeedCellActionButtonView(imageName: "arrowshape.turn.up.right",
                                                          value: post.shareCount)
                             }
                         }
@@ -104,7 +103,7 @@ struct FeedCell: View {
                             showComments = false // This will dismiss the full-screen cover
                         }) {
                             Image(systemName: "arrow.backward") // Using a system icon for the back button
-                                .foregroundColor(.primary)
+                                .foregroundStyle(.black)
                         })
                 }
             }

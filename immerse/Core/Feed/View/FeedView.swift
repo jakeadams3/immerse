@@ -48,7 +48,7 @@ struct FeedView: View {
                 } label: {
                     Image(systemName: "arrow.counterclockwise")
                         .imageScale(.large)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.black)
                         .shadow(radius: 4)
                         .padding(32)
                 }

@@ -42,7 +42,7 @@ struct ProfileHeaderView: View {
                         .font(.system(size: 14, weight: .semibold))
                         .frame(width: 360, height: 32)
                         .foregroundStyle(.black)
-                        .background(Color(.systemGray6))
+                        .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                 }
             } else {
@@ -93,7 +93,7 @@ struct UserStatView: View {
             
             Text(title)
                 .font(.caption)
-                .foregroundStyle(.gray)
+                .foregroundStyle(.white)
         }
         .opacity(value == 0 ? 0.5 : 1.0)
         .frame(width: 80, alignment: .center)
