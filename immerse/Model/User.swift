@@ -10,7 +10,7 @@ struct User: Identifiable, Codable {
     let id: String
     var username: String
     let email: String
-    let fullname: String
+    var fullname: String
     var bio: String?
     var profileImageUrl: String?
     

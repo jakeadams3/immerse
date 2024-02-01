@@ -21,103 +21,119 @@ enum EditProfileOptions: Hashable {
     }
 }
 
+
 struct EditProfileView: View {
     @StateObject var viewModel = EditProfileViewModel()
     @State private var profileImage: Image?
     @State private var uiImage: UIImage?
     @State private var selectedPickerItem: PhotosPickerItem?
+    @State private var fullname: String = ""
+    @State private var username: String = ""
+    @State private var bio: String = ""
     @Environment(\.dismiss) var dismiss
     @Binding var user: User
     
     init(user: Binding<User>) {
         self._user = user
+        self._fullname = State(initialValue: user.fullname.wrappedValue)
+        self._username = State(initialValue: user.username.wrappedValue)
+        self._bio = State(initialValue: user.bio.wrappedValue ?? "")
     }
     
     var body: some View {
         NavigationStack {
-            VStack {
-                PhotosPicker(selection: $selectedPickerItem, matching: .images) {
-                    VStack(spacing: 4) {
+            ScrollView {
+                VStack(spacing: 20) {
+                    PhotosPicker(selection: $selectedPickerItem, matching: .images) {
+                    VStack(spacing: 16) {
                         if let image = profileImage {
                             image
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: ProfileImageSize.xLarge.dimension, height: ProfileImageSize.xLarge.dimension)
                                 .clipShape(Circle())
-                                .foregroundColor(Color(.systemGray4))
                         } else {
                             CircularProfileImageView(user: user, size: .xLarge)
                         }
                         
                         Text("Change photo")
                             .font(.subheadline)
+                            .foregroundStyle(.black)
+                            .fontWeight(.semibold)
                     }
                     .padding()
                 }
-                
-                VStack(alignment: .leading, spacing: 24) {
-                    Text("About you")
-                        .font(.footnote)
-                        .foregroundStyle(Color(.systemGray2))
-                        .fontWeight(.semibold)
-                    
-                    NavigationLink(value: EditProfileOptions.fullname) {
+
+                    Divider()
+
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("About you")
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                            .fontWeight(.semibold)
+                            .padding(.bottom, 8)
+
                         HStack {
                             Text("Name")
-                            
-                            Spacer()
-                            
-                            Text(user.fullname)
+                                .foregroundColor(.secondary)
+                                .frame(width: 80, alignment: .leading)
+                            TextField("Enter your name", text: $fullname)
+                                .textFieldStyle(.roundedBorder)
                         }
-                    }
-                    
-                    NavigationLink(value: EditProfileOptions.username) {
+                        .padding(.bottom, 4)
+                        
                         HStack {
                             Text("Username")
-                            
-                            Spacer()
-                            
-                            Text(user.username)
+                                .foregroundColor(.secondary)
+                                .frame(width: 80, alignment: .leading)
+                            TextField("Choose a username", text: $username)
+                                .textFieldStyle(.roundedBorder)
                         }
-                    }
-                    
-                    NavigationLink(value: EditProfileOptions.bio) {
+                        .padding(.bottom, 4)
+                        
                         HStack {
                             Text("Bio")
-                            
-                            Spacer()
-                            
-                            Text(user.bio ?? "Add a bio")
+                                .foregroundColor(.secondary)
+                                .frame(width: 80, alignment: .leading)
+                            TextField("Write something about you", text: $bio)
+                                .textFieldStyle(.roundedBorder)
                         }
                     }
-                    
-                    Spacer()
+                    .padding([.horizontal, .bottom])
                 }
-                .font(.subheadline)
                 .padding()
             }
             .navigationTitle("Edit profile")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
                         dismiss()
                     }
-                    .font(.subheadline)
+                    .foregroundStyle(.black)
                 }
-                
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        updateProfileImage()
+                        Task {
+                            do {
+                                try await viewModel.updateUserProfile(fullname: fullname, username: username, bio: bio)
+                                if let uiImage = uiImage {
+                                    let imageUrl = await viewModel.uploadProfileImage(uiImage)
+                                    user.profileImageUrl = imageUrl
+                                }
+                                user.fullname = fullname
+                                user.username = username
+                                user.bio = bio
+                                dismiss()
+                            } catch {
+                                print("Error updating profile: \(error)")
+                            }
+                        }
                     }
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .foregroundStyle(.black)
                 }
             }
-            .navigationDestination(for: EditProfileOptions.self, destination: { option in
-                Text(option.navigationTitle)
-            })
-            .onChange(of: selectedPickerItem) { oldValue, newValue in
+            .onChange(of: selectedPickerItem) { newValue in
                 Task { await loadImage(fromItem: newValue) }
             }
         }
@@ -139,7 +155,6 @@ extension EditProfileView {
             guard let uiImage = uiImage else { return }
             let imageUrl = await viewModel.uploadProfileImage(uiImage)
             user.profileImageUrl = imageUrl
-            dismiss()
         }
     }
 }

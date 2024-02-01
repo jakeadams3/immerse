@@ -27,4 +27,14 @@ class EditProfileViewModel: ObservableObject {
             "profileImageUrl": imageUrl
         ])
     }
+    
+    func updateUserProfile(fullname: String, username: String, bio: String) async throws {
+            guard let currentUid = Auth.auth().currentUser?.uid else { return }
+            let userData: [String: Any] = [
+                "fullname": fullname,
+                "username": username,
+                "bio": bio
+            ]
+            try await FirestoreConstants.UserCollection.document(currentUid).updateData(userData)
+        }
 }
