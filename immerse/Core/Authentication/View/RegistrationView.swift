@@ -22,32 +22,35 @@ struct RegistrationView: View {
             Image("tiktok-app-icon")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 120, height: 120)
+                .frame(width: 150, height: 150)
                 .padding()
             
             // text fields
-            VStack {
+            VStack(spacing: 16) {
                 TextField("Enter your email", text: $viewModel.email)
                     .autocapitalization(.none)
-                    .modifier(StandardTextFieldModifier())
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal, 750)
                 
                 SecureField("Enter your password", text: $viewModel.password)
-                    .modifier(StandardTextFieldModifier())
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal, 750)
                 
                 TextField("Enter your full name", text: $viewModel.fullname)
                     .autocapitalization(.none)
-                    .modifier(StandardTextFieldModifier())
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal, 750)
                 
                 TextField("Enter your username", text: $viewModel.username)
                     .autocapitalization(.none)
-                    .modifier(StandardTextFieldModifier())
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal, 750)
             }
             
             Button {
                 Task { try await viewModel.createUser() }
             } label: {
                 Text(viewModel.isAuthenticating ? "" : "Sign up")
-                    .modifier(StandardButtonModifier())
                     .overlay {
                         if viewModel.isAuthenticating {
                             ProgressView()

@@ -6,8 +6,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct LoginView: View {
     private let service: AuthService
     @StateObject private var viewModel: LoginViewModel
@@ -27,28 +25,19 @@ struct LoginView: View {
                 Image("tiktok-app-icon")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 120, height: 120)
+                    .frame(width: 150, height: 150)
                     .padding()
                 
                 // text fields
-                VStack {
+                VStack(spacing: 16) {
                     TextField("Enter your email", text: $viewModel.email)
                         .autocapitalization(.none)
-                        .modifier(StandardTextFieldModifier())
+                        .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal, 750)
                     
                     SecureField("Enter your password", text: $viewModel.password)
-                        .modifier(StandardTextFieldModifier())
-                }
-                
-                NavigationLink {
-                    Text("Forgot Password")
-                } label: {
-                    Text("Forgot Password?")
-                        .font(.footnote)
-                        .fontWeight(.semibold)
-                        .padding(.top)
-                        .padding(.trailing, 28)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal, 750)
                 }
                 
                 Button {
@@ -59,7 +48,6 @@ struct LoginView: View {
                 } label: {
                     Text(viewModel.isAuthenticating ? "" : "Login")
                         .foregroundColor(.white)
-                        .modifier(StandardButtonModifier())
                         .overlay {
                             if viewModel.isAuthenticating {
                                 ProgressView()

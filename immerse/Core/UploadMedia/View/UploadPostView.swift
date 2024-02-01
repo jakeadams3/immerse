@@ -63,6 +63,7 @@ struct UploadPostView: View {
                 } label: {
                     Image(systemName: "chevron.left")
                 }
+                .foregroundStyle(.black)
             }
         }
         .onAppear {

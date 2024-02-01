@@ -40,6 +40,7 @@ struct MediaSelectorView: View {
                         Image(systemName: "xmark")
                             .imageScale(.large)
                     }
+                    .foregroundStyle(.black)
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
@@ -48,6 +49,7 @@ struct MediaSelectorView: View {
                     }
                     .disabled(viewModel.mediaPreview == nil)
                     .font(.headline)
+                    .foregroundStyle(.black)
                 }
             }
             .navigationDestination(item: $viewModel.selectedMediaForUpload, destination: { movie in
