@@ -13,9 +13,11 @@ class NotificationsViewModel: ObservableObject {
     @Published var showEmptyView = false
     
     private let service: NotificationService
+    let userService: UserService // Added UserService instance
     
-    init(service: NotificationService) {
+    init(service: NotificationService, userService: UserService = UserService()) {
         self.service = service
+        self.userService = userService // Initialize UserService
         Task { await fetchNotifications() }
     }
     

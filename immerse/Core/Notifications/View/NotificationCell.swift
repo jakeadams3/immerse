@@ -18,8 +18,8 @@ struct NotificationCell: View {
         return notification.user?.isFollowed ?? false
     }
     
-    init(notification: Notification) {
-        self.viewModel = NotificationCellViewModel(notification: notification)
+    init(notification: Notification, userService: UserService) {
+        self.viewModel = NotificationCellViewModel(notification: notification, userService: userService)
     }
     
     var body: some View {
@@ -72,6 +72,6 @@ struct NotificationCell: View {
     }
 }
 
-#Preview {
-    NotificationCell(notification: DeveloperPreview.notifications[0])
-}
+//#Preview {
+//    NotificationCell(notification: DeveloperPreview.notifications[0])
+//}
