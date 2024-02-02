@@ -13,6 +13,7 @@ struct FeedCell: View {
     @ObservedObject var viewModel: FeedViewModel
     @State private var expandCaption = false
     @State private var showComments = false
+    @State private var showingDeleteAlert = false
         
     private var didLike: Bool { return post.didLike }
     
@@ -75,19 +76,31 @@ struct FeedCell: View {
                             }
                             
                             Button {
-                         // no bookmark functionality currently
+                         // report action
                             } label: {
-                                FeedCellActionButtonView(imageName: "bookmark",
+                                FeedCellActionButtonView(imageName: "flag",
                                                          value: post.saveCount,
                                                          height: 28,
                                                          width: 22)
                             }
                             
-                            Button {
-                         // no sharing functionality currently
-                            } label: {
-                                FeedCellActionButtonView(imageName: "arrowshape.turn.up.right",
-                                                         value: post.shareCount)
+                            if post.user?.isCurrentUser ?? false {
+                                Button {
+                                    showingDeleteAlert = true
+                                } label: {
+                                    FeedCellActionButtonView(imageName: "trash", value: post.shareCount)
+                                }
+                                .alert("Are you sure you want to delete this post?", isPresented: $showingDeleteAlert) {
+                                    Button("Delete", role: .destructive) {
+                                        Task {
+                                            await viewModel.deletePost(post)
+                                            await viewModel.refreshFeed()
+                                        }
+                                    }
+                                    Button("Cancel", role: .cancel) { }
+                                } message: {
+                                    Text("This action cannot be undone.")
+                                }
                             }
                         }
                         .padding()

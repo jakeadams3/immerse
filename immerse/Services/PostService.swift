@@ -58,4 +58,9 @@ extension PostService {
         let snapshot = try await FirestoreConstants.UserCollection.document(uid).collection("user-likes").document(post.id).getDocument()
         return snapshot.exists
     }
+    
+    func deletePost(_ postId: String) async throws {
+            // Delete the post document from Firestore
+            try await FirestoreConstants.PostsCollection.document(postId).delete()
+        }
 }

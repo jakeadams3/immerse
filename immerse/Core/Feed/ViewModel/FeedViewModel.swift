@@ -125,4 +125,17 @@ extension FeedViewModel {
         
         posts = copy
     }
+    
+    func deletePost(_ post: Post) async {
+        do {
+            try await postService.deletePost(post.id)
+            await MainActor.run {
+                if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
+                    self.posts.remove(at: index)
+                }
+            }
+        } catch {
+            print("DEBUG: Failed to delete post with error \(error.localizedDescription)")
+        }
+    }
 }
