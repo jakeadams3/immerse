@@ -5,6 +5,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 @MainActor
 class FeedViewModel: ObservableObject {
@@ -138,4 +139,16 @@ extension FeedViewModel {
             print("DEBUG: Failed to delete post with error \(error.localizedDescription)")
         }
     }
+    
+    func flagPost(_ post: Post) async {
+            guard let flaggerUid = Auth.auth().currentUser?.uid else { return }
+            let flaggedUid = post.ownerUid // Assuming `ownerUid` is a property of `Post`
+            
+            do {
+                try await postService.flagPost(post.id, flaggerUid: flaggerUid, flaggedUid: flaggedUid)
+                print("Post flagged successfully.")
+            } catch {
+                print("Error flagging post: \(error.localizedDescription)")
+            }
+        }
 }

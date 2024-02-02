@@ -63,4 +63,17 @@ extension PostService {
             // Delete the post document from Firestore
             try await FirestoreConstants.PostsCollection.document(postId).delete()
         }
+    
+    func flagPost(_ postId: String, flaggerUid: String, flaggedUid: String) async throws {
+            let flagRef = FirestoreConstants.FlagsCollection.document(postId)
+            
+            // Data to include in the flag document
+            let flagData: [String: Any] = [
+                "flagged": true,
+                "flaggerUid": flaggerUid,
+                "flaggedUid": flaggedUid
+            ]
+            
+            try await flagRef.setData(flagData, merge: true)
+        }
 }

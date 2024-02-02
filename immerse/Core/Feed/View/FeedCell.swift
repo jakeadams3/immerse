@@ -76,12 +76,12 @@ struct FeedCell: View {
                             }
                             
                             Button {
-                         // report action
+                                Task {
+                                    await viewModel.flagPost(post)
+                                }
                             } label: {
                                 FeedCellActionButtonView(imageName: "flag",
-                                                         value: post.saveCount,
-                                                         height: 28,
-                                                         width: 22)
+                                                         value: post.saveCount)
                             }
                             
                             if post.user?.isCurrentUser ?? false {
