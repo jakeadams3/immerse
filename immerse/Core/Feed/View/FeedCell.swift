@@ -14,6 +14,7 @@ struct FeedCell: View {
     @State private var expandCaption = false
     @State private var showComments = false
     @State private var showingDeleteAlert = false
+    @State private var showingFlagAlert = false
         
     private var didLike: Bool { return post.didLike }
     
@@ -76,12 +77,27 @@ struct FeedCell: View {
                             }
                             
                             Button {
-                                Task {
-                                    await viewModel.flagPost(post)
+                                if post.didFlag {
+                                    Task {
+                                        await viewModel.toggleFlagForPost(post)
+                                    }
+                                } else {
+                                    showingFlagAlert = true
                                 }
                             } label: {
-                                FeedCellActionButtonView(imageName: "flag",
+                                FeedCellActionButtonView(imageName: post.didFlag ? "flag.fill" : "flag",
                                                          value: post.saveCount)
+                            }
+                            .alert(isPresented: $showingFlagAlert) {
+                                Alert(
+                                    title: Text("Are you sure you want to report this post?"),
+                                    primaryButton: .destructive(Text("Report")) {
+                                        Task {
+                                            await viewModel.toggleFlagForPost(post)
+                                        }
+                                    },
+                                    secondaryButton: .cancel()
+                                )
                             }
                             
                             if post.user?.isCurrentUser ?? false {

@@ -38,6 +38,7 @@ class FeedViewModel: ObservableObject {
             isLoading = false
             showEmptyView = posts.isEmpty
             await checkIfUserLikedPosts()
+            await checkIfUserFlaggedPosts()
         } catch {
             isLoading = false
             print("DEBUG: Failed to fetch posts \(error.localizedDescription)")
@@ -54,6 +55,7 @@ class FeedViewModel: ObservableObject {
                 isLoading = false
                 onPostsRefreshed?()  // Call the closure after successfully refreshing posts
                 await checkIfUserLikedPosts()
+                await checkIfUserFlaggedPosts()
             } catch {
                 isLoading = false
                 print("DEBUG: Failed to refresh posts with error: \(error.localizedDescription)")
@@ -68,6 +70,7 @@ class FeedViewModel: ObservableObject {
             posts = try await feedService.fetchPosts()
             isLoading = false
             await checkIfUserLikedPosts()
+            await checkIfUserFlaggedPosts()
         } catch {
             isLoading = false
             print("DEBUG: Failed to refresh posts with error: \(error.localizedDescription)")
@@ -149,6 +152,46 @@ extension FeedViewModel {
                 print("Post flagged successfully.")
             } catch {
                 print("Error flagging post: \(error.localizedDescription)")
+            }
+        }
+    
+    func toggleFlagForPost(_ post: Post) async {
+            guard let flaggerUid = Auth.auth().currentUser?.uid, var index = posts.firstIndex(where: { $0.id == post.id }) else { return }
+            
+            let isFlagged = await postService.isPostFlaggedByUser(post.id, flaggerUid: flaggerUid)
+            
+            do {
+                if isFlagged {
+                    try await postService.unflagPost(post.id, flaggerUid: flaggerUid)
+                    posts[index].didFlag = false
+                } else {
+                    let flaggedUid = post.ownerUid
+                    try await postService.flagPost(post.id, flaggerUid: flaggerUid, flaggedUid: flaggedUid)
+                    posts[index].didFlag = true
+                }
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
+            } catch {
+                print("Error toggling flag on post: \(error.localizedDescription)")
+            }
+        }
+    
+    func checkIfUserFlaggedPosts() async {
+            guard !posts.isEmpty else { return }
+            var copy = posts
+            
+            for i in 0 ..< copy.count {
+                do {
+                    let post = copy[i]
+                    let didFlag = await self.postService.isPostFlaggedByUser(post.id, flaggerUid: Auth.auth().currentUser?.uid ?? "")
+                    
+                    DispatchQueue.main.async { [weak self] in
+                        self?.posts[i].didFlag = didFlag
+                    }
+                } catch {
+                    print("DEBUG: Failed to check if user flagged post with error: \(error.localizedDescription)")
+                }
             }
         }
 }

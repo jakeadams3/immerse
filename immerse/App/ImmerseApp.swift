@@ -16,7 +16,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct TikTokCloneApp: App {
+struct ImmerseApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     private let authService = AuthService()
     private let userService = UserService()

@@ -67,13 +67,22 @@ extension PostService {
     func flagPost(_ postId: String, flaggerUid: String, flaggedUid: String) async throws {
             let flagRef = FirestoreConstants.FlagsCollection.document(postId)
             
-            // Data to include in the flag document
-            let flagData: [String: Any] = [
-                "flagged": true,
-                "flaggerUid": flaggerUid,
-                "flaggedUid": flaggedUid
-            ]
-            
+            let flagData: [String: Any] = ["flaggedUid": flaggedUid]
             try await flagRef.setData(flagData, merge: true)
+            
+            let flaggerRef = flagRef.collection("flaggers").document(flaggerUid)
+            let flaggerData: [String: Any] = ["flagged": true]
+            try await flaggerRef.setData(flaggerData)
+        }
+    
+    func unflagPost(_ postId: String, flaggerUid: String) async throws {
+            let flaggerRef = FirestoreConstants.FlagsCollection.document(postId).collection("flaggers").document(flaggerUid)
+            try await flaggerRef.delete()
+        }
+
+    func isPostFlaggedByUser(_ postId: String, flaggerUid: String) async -> Bool {
+            let flaggerRef = FirestoreConstants.FlagsCollection.document(postId).collection("flaggers").document(flaggerUid)
+            let document = try? await flaggerRef.getDocument()
+        return document!.exists
         }
 }
