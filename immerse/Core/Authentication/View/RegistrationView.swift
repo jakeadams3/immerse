@@ -19,10 +19,10 @@ struct RegistrationView: View {
             Spacer()
             
             // logo image
-            Image("tiktok-app-icon")
+            Image("ClipzyTransparent")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 150, height: 150)
+                .frame(width: 412, height: 150)
                 .padding()
             
             // text fields
