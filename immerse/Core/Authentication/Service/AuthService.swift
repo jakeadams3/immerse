@@ -48,4 +48,19 @@ class AuthService {
         self.userSession = nil
         try? Auth.auth().signOut()
     }
+    
+    func deleteAccount() async throws {
+            
+            do {
+                // Delete user from Firebase Auth
+                try await Auth.auth().currentUser?.delete()
+                
+                // Clear the user session to sign out the user in the app
+                self.userSession = nil
+
+            } catch {
+                print("DEBUG: Failed to delete account \(error.localizedDescription)")
+                throw error
+            }
+        }
 }

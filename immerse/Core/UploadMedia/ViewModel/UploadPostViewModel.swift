@@ -27,7 +27,6 @@ class UploadPostViewModel: ObservableObject {
     }
     
     func uploadPost() async {
-        guard !caption.isEmpty else { return }
         guard let videoUrlString = mediaPreview?.url.absoluteString else { return }
         isLoading = true
         
