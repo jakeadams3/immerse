@@ -6,11 +6,13 @@
 
 import AVFoundation
 import SwiftUI
+import Firebase
 
 @MainActor
 class ProfileViewModel: ObservableObject {
     @Published var posts = [Post]()
     @Published var user: User
+    @Published var isBlocked: Bool = false
     
     private let userService: UserService
     private let postService: PostService
@@ -79,3 +81,55 @@ extension ProfileViewModel {
     }
 }
 
+extension ProfileViewModel {
+    func blockUser() async {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        let blockedUid = user.id
+
+        let blockedUsersRef = FirestoreConstants.UserCollection.document(currentUserUid).collection("blocked-users")
+        
+        do {
+            try await blockedUsersRef.document(blockedUid).setData([:])
+            DispatchQueue.main.async {
+                self.isBlocked = true
+            }
+        } catch let error {
+            print("Failed to block user: \(error.localizedDescription)")
+        }
+    }
+    
+    func unblockUser() async {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        let blockedUid = user.id
+
+        let blockedUsersRef = FirestoreConstants.UserCollection.document(currentUserUid).collection("blocked-users")
+        
+        do {
+            try await blockedUsersRef.document(blockedUid).delete()
+            DispatchQueue.main.async {
+                self.isBlocked = false
+            }
+        } catch let error {
+            print("Failed to unblock user: \(error.localizedDescription)")
+        }
+    }
+    
+    func checkBlocked() async {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        let checkedUid = user.id
+
+        let blockedUsersRef = FirestoreConstants.UserCollection.document(currentUserUid).collection("blocked-users")
+
+        do {
+            let document = try await blockedUsersRef.document(checkedUid).getDocument()
+            DispatchQueue.main.async {
+                self.isBlocked = document.exists
+            }
+        } catch let error {
+            print("Failed to check if user is blocked: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.isBlocked = false
+            }
+        }
+    }
+}
