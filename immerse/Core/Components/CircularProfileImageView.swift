@@ -42,7 +42,7 @@ struct CircularProfileImageView: View {
             Image(systemName: "person.circle.fill")
                 .resizable()
                 .frame(width: size.dimension, height: size.dimension)
-                .foregroundColor(Color(.systemGray5))
+                .foregroundColor(Color(.white))
         }
     }
 }

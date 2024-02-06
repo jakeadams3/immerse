@@ -47,10 +47,12 @@ struct FeedView: View {
                 } label: {
                     Image(systemName: "arrow.counterclockwise")
                         .imageScale(.large)
-                        .foregroundStyle(.black)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
                         .shadow(radius: 4)
                         .padding(32)
                 }
+                .tint(.clear)
             }
             .background(.black)
             .onAppear { player.play() }

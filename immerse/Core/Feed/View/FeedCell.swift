@@ -45,7 +45,7 @@ struct FeedCell: View {
                     HStack(alignment: .bottom) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(post.user?.username ?? "")
-                                .font(.subheadline)
+                                .font(.largeTitle)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.white)
                             
@@ -54,7 +54,7 @@ struct FeedCell: View {
                             
                         }
                         .onTapGesture { withAnimation(.snappy) { expandCaption.toggle() } }
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundStyle(.white)
                         .padding()
                         
@@ -63,11 +63,7 @@ struct FeedCell: View {
                         VStack(spacing: 28) {
                             NavigationLink(value: post.user) {
                                 ZStack(alignment: .bottom) {
-                                    CircularProfileImageView(user: post.user, size: .medium)
-                                    
-                                    Image(systemName: "plus.circle.fill")
-                                        .foregroundStyle(.pink)
-                                        .offset(y: 8)
+                                    CircularProfileImageView(user: post.user, size: .xLarge)
                                 }
                             }
                             
@@ -76,14 +72,19 @@ struct FeedCell: View {
                             } label: {
                                 FeedCellActionButtonView(imageName: didLike ? "heart.fill" : "heart",
                                                          value: post.likes,
-                                                         tintColor: didLike ? .red : .black)
+                                                         height: 40,
+                                                         width: 40,
+                                                         tintColor: didLike ? .red : .white)
                             }
                             
                             Button {
                                 player.pause()
                                 showComments.toggle()
                             } label: {
-                                FeedCellActionButtonView(imageName: "ellipsis.bubble", value: post.commentCount)
+                                FeedCellActionButtonView(imageName: "ellipsis.bubble", 
+                                                         value: post.commentCount,
+                                                         height: 40,
+                                                         width: 40)
                             }
                             
                             Button {
@@ -96,7 +97,9 @@ struct FeedCell: View {
                                 }
                             } label: {
                                 FeedCellActionButtonView(imageName: post.didFlag ? "flag.fill" : "flag",
-                                                         value: post.saveCount)
+                                                         value: post.saveCount,
+                                                         height: 38,
+                                                         width: 38)
                             }
                             .alert(isPresented: $showingFlagAlert) {
                                 Alert(
@@ -114,7 +117,10 @@ struct FeedCell: View {
                                 Button {
                                     showingDeleteAlert = true
                                 } label: {
-                                    FeedCellActionButtonView(imageName: "trash", value: post.shareCount)
+                                    FeedCellActionButtonView(imageName: "trash", 
+                                                             value: post.shareCount,
+                                                             height: 40,
+                                                             width: 40)
                                 }
                                 .alert("Are you sure you want to delete this post?", isPresented: $showingDeleteAlert) {
                                     Button("Delete", role: .destructive) {
@@ -129,6 +135,7 @@ struct FeedCell: View {
                                 }
                             }
                         }
+                        .tint(.clear)
                         .padding()
                     }
                     .padding(.bottom, viewModel.isContainedInTabBar ? 80 : 12)
