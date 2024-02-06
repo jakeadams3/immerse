@@ -20,8 +20,18 @@ struct FeedCell: View {
     
     var body: some View {
         ZStack {
-            VideoPlayer(player: player)
-                .containerRelativeFrame([.horizontal, .vertical])
+            if post.isOwnerBlocked {
+                // Display a placeholder or nothing if the post is from a blocked user
+                Color.black.opacity(0.7)
+                    .overlay(Text("This post is from a blocked user.")
+                        .foregroundColor(.white))
+                    .containerRelativeFrame([.horizontal, .vertical])
+            } else {
+                // Only create and show the VideoPlayer if the user is not blocked
+                VideoPlayer(player: player)
+                    .containerRelativeFrame([.horizontal, .vertical])
+
+            }
                     
             VStack {
                 Spacer()
@@ -149,6 +159,21 @@ struct FeedCell: View {
                 }
             }
         }
+        .blur(radius: post.isOwnerBlocked ? 20 : 0)
+        .disabled(post.isOwnerBlocked) // Disable interaction if the post's owner is blocked
+                .overlay(
+                    Group {
+                        if post.isOwnerBlocked {
+                            Text("This post is from a blocked user.")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(Color.black.opacity(0.7))
+                                .foregroundColor(.white)
+                                .font(.title)
+                        } else {
+                            EmptyView()
+                        }
+                    }
+                )
     }
     
     private func handleLikeTapped() {

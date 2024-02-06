@@ -13,20 +13,20 @@ struct FeedView: View {
     @State private var scrollPosition: String?
     
     init(player: Binding<AVPlayer>, posts: [Post] = []) {
-            self._player = player
-            
-            let viewModel = FeedViewModel(feedService: FeedService(),
-                                          postService: PostService(),
-                                          posts: posts)
-            self._viewModel = StateObject(wrappedValue: viewModel)
-            
-            // Set the closure to update the player when posts are refreshed
-            viewModel.onPostsRefreshed = { [weak viewModel] in
-                if let firstPost = viewModel?.posts.first {
-                    player.wrappedValue.replaceCurrentItem(with: AVPlayerItem(url: URL(string: firstPost.videoUrl)!))
-                }
+        self._player = player
+        
+        let viewModel = FeedViewModel(feedService: FeedService(),
+                                      postService: PostService(),
+                                      posts: posts)
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        
+        // Set the closure to update the player when posts are refreshed
+        viewModel.onPostsRefreshed = { [weak viewModel] in
+            if let firstPost = viewModel?.posts.first, !firstPost.isOwnerBlocked {
+                player.wrappedValue.replaceCurrentItem(with: AVPlayerItem(url: URL(string: firstPost.videoUrl)!))
             }
         }
+    }
     
     var body: some View {
         NavigationStack {
@@ -37,7 +37,6 @@ struct FeedView: View {
                             FeedCell(post: post, player: player, viewModel: viewModel)
                                 .id(post.id)
                                 .onAppear { playInitialVideoIfNecessary(forPost: post.wrappedValue) }
-                                
                         }
                     }
                     .scrollTargetLayout()
@@ -77,12 +76,16 @@ struct FeedView: View {
     }
     
     func playInitialVideoIfNecessary(forPost post: Post) {
-        guard
-            scrollPosition == nil,
-            let post = viewModel.posts.first,
-            player.currentItem == nil else { return }
-        
-        player.replaceCurrentItem(with: AVPlayerItem(url: URL(string: post.videoUrl)!))
+        if !post.isOwnerBlocked {
+            guard
+                scrollPosition == nil,
+                let firstPost = viewModel.posts.first,
+                player.currentItem == nil else { return }
+            
+            player.replaceCurrentItem(with: AVPlayerItem(url: URL(string: firstPost.videoUrl)!))
+        } else {
+            player.pause() // Pause if the first post is from a blocked user
+        }
     }
     
     func playVideoOnChangeOfScrollPosition(postId: String?) {

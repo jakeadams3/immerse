@@ -39,6 +39,7 @@ class FeedViewModel: ObservableObject {
             showEmptyView = posts.isEmpty
             await checkIfUserLikedPosts()
             await checkIfUserFlaggedPosts()
+            await checkIfPostOwnersAreBlocked()
         } catch {
             isLoading = false
             print("DEBUG: Failed to fetch posts \(error.localizedDescription)")
@@ -56,11 +57,27 @@ class FeedViewModel: ObservableObject {
                 onPostsRefreshed?()  // Call the closure after successfully refreshing posts
                 await checkIfUserLikedPosts()
                 await checkIfUserFlaggedPosts()
+                await checkIfPostOwnersAreBlocked()
             } catch {
                 isLoading = false
                 print("DEBUG: Failed to refresh posts with error: \(error.localizedDescription)")
             }
         }
+    
+    func checkIfPostOwnersAreBlocked() async {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        let blockedUsersRef = FirestoreConstants.UserCollection.document(currentUserUid).collection("blocked-users")
+
+        for i in 0..<posts.count {
+            let ownerUid = posts[i].ownerUid
+            let document = try? await blockedUsersRef.document(ownerUid).getDocument()
+            if let isBlocked = document?.exists {
+                DispatchQueue.main.async {
+                    self.posts[i].isOwnerBlocked = isBlocked
+                }
+            }
+        }
+    }
     
     func refreshVideo() async {
         posts.removeFirst()

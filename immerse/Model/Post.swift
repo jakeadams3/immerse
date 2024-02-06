@@ -26,6 +26,7 @@ struct Post: Identifiable, Codable {
     var didLike = false
     var didSave = false
     var didFlag: Bool = false
+    var isOwnerBlocked: Bool = false
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
