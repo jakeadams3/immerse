@@ -28,7 +28,7 @@ struct FeedCell: View {
                     .containerRelativeFrame([.horizontal, .vertical])
             } else {
                 // Only create and show the VideoPlayer if the user is not blocked
-                VideoPlayer(player: player)
+                VideoPlayerView(player: player)
                     .containerRelativeFrame([.horizontal, .vertical])
 
             }
