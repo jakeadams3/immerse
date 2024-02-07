@@ -15,12 +15,12 @@ struct ProfileHeaderView: View {
     }
     
     var body: some View {
-        VStack(spacing: 16) {
-            VStack(spacing: 8) {
-                CircularProfileImageView(user: user, size: .xLarge)
+        VStack(spacing: 32) {
+            VStack(spacing: 16) {
+                CircularProfileImageView(user: user, size: .huge)
                 
                 Text("@\(user.username)")
-                    .font(.subheadline)
+                    .font(.largeTitle)
                     .fontWeight(.semibold)
             }
             
@@ -39,34 +39,35 @@ struct ProfileHeaderView: View {
                     showEditProfile.toggle()
                 } label: {
                     Text("Edit Profile")
-                        .font(.system(size: 14, weight: .semibold))
-                        .frame(width: 360, height: 32)
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .padding()
+                        .frame(width: 400, height: 50)
                         .foregroundStyle(.black)
                         .background(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                        .clipShape(RoundedRectangle(cornerRadius: 40))
                 }
             } else {
                 Button {
                     handleFollowTapped()
                 } label: {
                     Text(user.isFollowed ? "Following" : "Follow")
-                        .font(.subheadline)
+                        .font(.title3)
                         .fontWeight(.semibold)
-                        .frame(width: 360, height: 32)
+                        .padding()
+                        .frame(width: 400, height: 50)
                         .foregroundStyle(user.isFollowed ? .black : .white)
-                        .background(user.isFollowed ? .white : .pink)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.gray, lineWidth: user.isFollowed ? 1 : 0)
-                        }
+                        .background(user.isFollowed ? .white : .black)
+                        .clipShape(RoundedRectangle(cornerRadius: 40))
                 }
+                .tint(.clear)
             }
             
             // bio
             if let bio = user.bio {
                 Text(bio)
-                    .font(.subheadline)
+                    .font(.title3)
+                    .fontWeight(.semibold)
             }
             
             Divider()
@@ -88,11 +89,11 @@ struct UserStatView: View {
     var body: some View {
         VStack {
             Text("\(value)")
-                .font(.subheadline)
+                .font(.title2)
                 .fontWeight(.bold)
             
             Text(title)
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundStyle(.white)
         }
         .opacity(value == 0 ? 0.5 : 1.0)

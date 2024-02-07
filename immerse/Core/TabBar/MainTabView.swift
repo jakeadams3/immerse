@@ -39,14 +39,20 @@ struct MainTabView: View {
                         Image(systemName: selectedTab == 1 ? "person.2.fill" : "person.2")
                             .environment(\.symbolVariants, selectedTab == 1 ? .fill : .none)
                         
-                        Text("Friends")
+                        Text("Explore")
                     }
                 }
                 .onAppear { selectedTab = 1 }
                 .tag(1)
             
             MediaSelectorView(tabIndex: $selectedTab)
-                .tabItem { Image(systemName: "plus") }
+                .tabItem {
+                    VStack {
+                        Image(systemName: "plus")
+                        
+                        Text("Post")
+                    }
+                }
                 .onAppear { selectedTab = 2 }
                 .tag(2)
             

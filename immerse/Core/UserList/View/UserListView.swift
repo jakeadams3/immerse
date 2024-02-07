@@ -11,12 +11,13 @@ struct UserListView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 16) {
+            LazyVStack(spacing: 2) {
                 ForEach(viewModel.users) { user in
                     NavigationLink(value: user) {
                         UserCell(user: user)
                             .padding(.horizontal)
                     }
+                    .tint(.clear)
                 }
                 
             }

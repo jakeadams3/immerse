@@ -66,6 +66,7 @@ struct FeedCell: View {
                                     CircularProfileImageView(user: post.user, size: .xLarge)
                                 }
                             }
+                            .padding(.bottom, 20)
                             
                             Button {
                                 handleLikeTapped()

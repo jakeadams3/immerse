@@ -14,35 +14,43 @@ struct UserCell: View {
     }
     
     var body: some View {
-        HStack(spacing: 12) {
-            CircularProfileImageView(user: user, size: .medium)
+        HStack(spacing: 16) {
+            CircularProfileImageView(user: user, size: .xLarge)
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(user.username)
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .font(.title3)
+                    .foregroundColor(.white)
                 
                 Text(user.fullname)
-                    .font(.footnote)
+                    .font(.body)
+                    .foregroundColor(.white.opacity(0.7))
             }
-            .foregroundStyle(.black)
             
             Spacer()
             
-//            Button {
-//                
-//            } label: {
-//                Text("Follow")
-//                    .font(.system(size: 14, weight: .semibold))
-//                    .frame(width: 88, height: 32)
-//                    .foregroundColor(.white)
-//                    .background(.pink)
-//                    .cornerRadius(6)
-//            }
+            //            Button {
+            //
+            //            } label: {
+            //                Text("Follow")
+            //                    .font(.system(size: 14, weight: .semibold))
+            //                    .frame(width: 88, height: 32)
+            //                    .foregroundColor(.white)
+            //                    .background(.pink)
+            //                    .cornerRadius(6)
+            //            }
         }
+        .padding(.horizontal)
+        .padding(.vertical, 15)
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(80)
+        .overlay(
+            RoundedRectangle(cornerRadius: 80)
+                .stroke(Color.white, lineWidth: 2)
+        )
+        .shadow(radius: 5)
     }
 }
-
 
 #Preview {
     UserCell(user: DeveloperPreview.user)
