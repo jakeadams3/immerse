@@ -19,8 +19,8 @@ struct CommentsView: View {
         VStack {
             if !viewModel.comments.isEmpty {
                 Text(viewModel.commentCountText)
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .font(.title2)
                     .padding(.top, 24)
             }
             
@@ -40,7 +40,8 @@ struct CommentsView: View {
                 .padding(.bottom)
             
             HStack(spacing: 12) {
-                CircularProfileImageView(user: viewModel.currentUser, size: .xSmall)
+                CircularProfileImageView(user: viewModel.currentUser, size: .large)
+                    .padding()
                 
                 CommentInputView(viewModel: viewModel)
             }

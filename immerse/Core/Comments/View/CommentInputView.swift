@@ -14,18 +14,11 @@ struct CommentInputView: View {
     
     var body: some View {
         ZStack(alignment: .trailing) {
-            TextField("Add a comment", text: $viewModel.commentText, axis: .vertical)
-                .padding(10)
-                .padding(.leading, 4)
-                .padding(.trailing, 48)
-                .background(Color(.systemGroupedBackground))
-                .clipShape(Capsule())
-                .font(.footnote)
+            HStack {
+            TextField("Add a comment", text: $viewModel.commentText)
+                .textFieldStyle(.roundedBorder)
+                .font(.title2)
                 .focused($fieldIsActive)
-                .overlay {
-                    Capsule()
-                        .stroke(Color(.systemGray5), lineWidth: 0)
-                }
             
             Button {
                 Task {
@@ -35,11 +28,12 @@ struct CommentInputView: View {
             } label: {
                 Image(systemName: "arrow.up.circle.fill")
                     .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundStyle(.pink)
+                    .frame(width: 50, height: 50)
+                    .foregroundStyle(.white)
             }
             .padding(.horizontal)
         }
-        .tint(.white)
+        }
+        .tint(.clear)
     }
 }
