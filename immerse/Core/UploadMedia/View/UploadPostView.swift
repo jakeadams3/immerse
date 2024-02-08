@@ -21,6 +21,7 @@ struct UploadPostView: View {
                     .textFieldStyle(.roundedBorder)
                     .font(.title)
                     .fontWeight(.semibold)
+                    .tint(.white)
                 
                 Spacer()
                 

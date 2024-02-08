@@ -46,6 +46,7 @@ struct RegistrationView: View {
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal, 750)
             }
+            .tint(.white)
             
             Button {
                 Task { try await viewModel.createUser() }

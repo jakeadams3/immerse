@@ -18,6 +18,7 @@ struct CommentInputView: View {
             TextField("Add a comment", text: $viewModel.commentText)
                 .textFieldStyle(.roundedBorder)
                 .font(.title2)
+                .tint(.white)
                 .focused($fieldIsActive)
             
             Button {

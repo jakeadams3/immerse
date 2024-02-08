@@ -34,10 +34,12 @@ struct LoginView: View {
                         .autocapitalization(.none)
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal, 750)
+                        .tint(.white)
                     
                     SecureField("Enter your password", text: $viewModel.password)
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal, 750)
+                        .tint(.white)
                 }
                 
                 Button {
