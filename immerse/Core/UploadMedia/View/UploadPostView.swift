@@ -13,62 +13,75 @@ struct UploadPostView: View {
     @Binding var tabIndex: Int
     
     var body: some View {
-        VStack {
-            HStack(alignment: .top) {
-                TextField("Enter your caption..", text: $viewModel.caption, axis: .vertical)
-                    .font(.subheadline)
+        GeometryReader { geometry in
+            let width = (geometry.size.width / 1.5) - 2
+            let height = (width * 9) / 16
+            VStack {
+                TextField("Enter your caption..", text: $viewModel.caption)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.title)
+                    .fontWeight(.semibold)
                 
                 Spacer()
+                
+                Text("Thumbnail:")
+                    .font(.largeTitle)
                 
                 if let uiImage = viewModel.thumbnailImage {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 88, height: 100)
+                        .frame(width: width, height: height)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
-            }
-            
-            Divider()
-            
-            Spacer()
-            
-            Button {
-                Task {
-                    await viewModel.uploadPost()
-                    tabIndex = 0
-                    viewModel.reset()
-                    dismiss()
-                }
-            } label: {
-                Text(viewModel.isLoading ? "" : "Post")
-                    .modifier(StandardButtonModifier())
-                    .overlay {
-                        if viewModel.isLoading {
-                            ProgressView()
-                                .tint(.white)
-                        }
-                    }
-            }
-            .disabled(viewModel.isLoading)
-        }
-        .padding()
-        .navigationTitle("Post")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
+                
+                Spacer()
+                
                 Button {
-                    dismiss()
+                    Task {
+                        await viewModel.uploadPost()
+                        tabIndex = 0
+                        viewModel.reset()
+                        dismiss()
+                    }
                 } label: {
-                    Image(systemName: "chevron.left")
+                    Text(viewModel.isLoading ? "" : "Post")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .padding()
+                        .frame(width: 500, height: 62)
+                        .foregroundStyle(.black)
+                        .background(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 40))
+                        .overlay {
+                            if viewModel.isLoading {
+                                ProgressView()
+                                    .tint(.black)
+                            }
+                        }
                 }
-                .foregroundStyle(.black)
+                .disabled(viewModel.isLoading)
+                Spacer()
             }
-        }
-        .onAppear {
-            Task {
-                await viewModel.loadThumbnail(for: movie)
+            .tint(.clear)
+            .padding()
+            .navigationTitle("Post")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                    }
+                    .foregroundStyle(.black)
+                }
+            }
+            .onAppear {
+                Task {
+                    await viewModel.loadThumbnail(for: movie)
+                }
             }
         }
     }
