@@ -19,11 +19,12 @@ struct UserCell: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(user.username)
-                    .font(.title3)
+                    .font(.title2)
                     .foregroundColor(.white)
                 
                 Text(user.fullname)
-                    .font(.body)
+                    .fontWeight(.semibold)
+                    .font(.title2)
                     .foregroundColor(.white.opacity(0.7))
             }
             

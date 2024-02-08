@@ -16,6 +16,8 @@ struct NotificationsView: View {
                     ForEach(viewModel.notifications) { notification in
                         NotificationCell(notification: notification, userService: viewModel.userService)
                             .padding(.top)
+                            .padding(.horizontal)
+                            .tint(.clear)
                     }
                 }
 
