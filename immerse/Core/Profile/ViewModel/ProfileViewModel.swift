@@ -74,7 +74,10 @@ extension ProfileViewModel {
 extension ProfileViewModel {
     func fetchUserPosts() async {
         do {
-            self.posts = try await postService.fetchUserPosts(user: user)
+            var fetchedPosts = try await postService.fetchUserPosts(user: user)
+            // Sort fetchedPosts by timestamp in descending order (newest first)
+            fetchedPosts.sort { $0.timestamp.dateValue() > $1.timestamp.dateValue() }
+            self.posts = fetchedPosts
         } catch {
             print("DEBUG: Failed to fetch posts with error: \(error.localizedDescription)")
         }
