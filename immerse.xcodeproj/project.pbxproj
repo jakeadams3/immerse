@@ -88,6 +88,7 @@
 		57D017A52B0C16A100276F16 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 57D017A42B0C16A100276F16 /* Kingfisher */; };
 		57DF93FE2B1AA963006814D9 /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */; };
 		57E60FE22B66202A005588A4 /* SphereCut.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 57E60FE12B66202A005588A4 /* SphereCut.usdz */; };
+		57EDD7082B75D35B00970B61 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EDD7072B75D35B00970B61 /* TermsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -169,6 +170,7 @@
 		579115962B5DCD24009B3283 /* CurvedScreen.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = CurvedScreen.usdz; sourceTree = "<group>"; };
 		57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
 		57E60FE12B66202A005588A4 /* SphereCut.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = SphereCut.usdz; sourceTree = "<group>"; };
+		57EDD7072B75D35B00970B61 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -537,6 +539,7 @@
 			children = (
 				574E9BAC2B098B34005F3C86 /* RegistrationView.swift */,
 				574E9BAD2B098B34005F3C86 /* LoginView.swift */,
+				57EDD7072B75D35B00970B61 /* TermsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -811,6 +814,7 @@
 				574E9BF22B098B34005F3C86 /* ProfileHeaderView.swift in Sources */,
 				574E9BDA2B098B34005F3C86 /* CommentInputView.swift in Sources */,
 				574E9C182B098B34005F3C86 /* MediaUploader.swift in Sources */,
+				57EDD7082B75D35B00970B61 /* TermsView.swift in Sources */,
 				574E9BFA2B098B34005F3C86 /* ContentViewModel.swift in Sources */,
 				574E9BD82B098B34005F3C86 /* CommentViewModel.swift in Sources */,
 				574E9C082B098B34005F3C86 /* Notification.swift in Sources */,

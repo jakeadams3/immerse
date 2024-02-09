@@ -9,81 +9,105 @@ import SwiftUI
 struct RegistrationView: View {
     @StateObject var viewModel: RegistrationViewModel
     @Environment(\.dismiss) var dismiss
+    @State private var showTermsView = false
     
     init(service: AuthService) {
         self._viewModel = StateObject(wrappedValue: RegistrationViewModel(service: service))
     }
     
     var body: some View {
-        VStack {
-            Spacer()
-            
-            // logo image
-            Image("ClipzyTransparent")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 412, height: 150)
-                .padding()
-            
-            // text fields
-            VStack(spacing: 16) {
-                TextField("Enter your email", text: $viewModel.email)
-                    .autocapitalization(.none)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal, 750)
+        NavigationStack {
+            VStack {
+                Spacer()
                 
-                SecureField("Enter your password", text: $viewModel.password)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal, 750)
+                // logo image
+                Image("ClipzyTransparent")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 412, height: 150)
+                    .padding()
                 
-                TextField("Enter your full name", text: $viewModel.fullname)
-                    .autocapitalization(.none)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal, 750)
-                
-                TextField("Enter your username", text: $viewModel.username)
-                    .autocapitalization(.none)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal, 750)
-            }
-            .tint(.white)
-            
-            Button {
-                Task { try await viewModel.createUser() }
-            } label: {
-                Text(viewModel.isAuthenticating ? "" : "Sign up")
-                    .overlay {
-                        if viewModel.isAuthenticating {
-                            ProgressView()
-                                .tint(.white)
-                        }
-                    }
+                // text fields
+                VStack(spacing: 16) {
+                    TextField("Enter your email", text: $viewModel.email)
+                        .autocapitalization(.none)
+                        .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal, 750)
                     
-            }
-            .disabled(viewModel.isAuthenticating || !formIsValid)
-            .opacity(formIsValid ? 1 : 0.7)
-            .padding(.vertical)
-            
-            Spacer()
-            
-            Divider()
-            
-            Button {
-                dismiss()
-            } label: {
-                HStack(spacing: 3) {
-                    Text("Already have an account?")
+                    SecureField("Enter your password", text: $viewModel.password)
+                        .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal, 750)
                     
-                    Text("Sign in")
-                        .fontWeight(.semibold)
+                    TextField("Enter your full name", text: $viewModel.fullname)
+                        .autocapitalization(.none)
+                        .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal, 750)
+                    
+                    TextField("Enter your username", text: $viewModel.username)
+                        .autocapitalization(.none)
+                        .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal, 750)
                 }
-                .font(.footnote)
+                .tint(.white)
+                
+                Button {
+                    Task { try await viewModel.createUser() }
+                } label: {
+                    Text(viewModel.isAuthenticating ? "" : "Sign up")
+                        .overlay {
+                            if viewModel.isAuthenticating {
+                                ProgressView()
+                                    .tint(.white)
+                            }
+                        }
+                    
+                }
+                .disabled(viewModel.isAuthenticating || !formIsValid)
+                .opacity(formIsValid ? 1 : 0.7)
+                .padding(.vertical)
+                
+                Spacer()
+                
+                Button {
+                    showTermsView = true
+                } label: {
+                    Text("By clicking Sign Up, you are agreeing to Clipzy's Terms of Service")
+                        .font(.footnote)
+                        .foregroundStyle(.white)
+                }
+                .tint(.clear)
+                
+                Divider()
+                
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 3) {
+                        Text("Already have an account?")
+                        
+                        Text("Sign in")
+                            .fontWeight(.semibold)
+                    }
+                    .font(.callout)
+                }
+                .padding(.vertical, 16)
             }
-            .padding(.vertical, 16)
-        }
-        .alert(isPresented: $viewModel.showAlert) {
-            Alert(title: Text("Error"),
-                  message: Text(viewModel.authError?.description ?? ""))
+            .fullScreenCover(isPresented: $showTermsView) {
+                NavigationView {
+                    TermsView()
+                        .navigationBarTitle("Terms of Service", displayMode: .inline)
+                        .navigationBarItems(leading: Button(action: {
+                            showTermsView = false
+                        }) {
+                            Image(systemName: "arrow.backward") // Using a system icon for the back button
+                                .foregroundStyle(.black)
+                        })
+                }
+            }
+            .alert(isPresented: $viewModel.showAlert) {
+                Alert(title: Text("Error"),
+                      message: Text(viewModel.authError?.description ?? ""))
+            }
         }
     }
 }

@@ -76,7 +76,7 @@ struct LoginView: View {
                         Text("Sign Up")
                             .fontWeight(.semibold)
                     }
-                    .font(.footnote)
+                    .font(.callout)
                 }
                 .padding(.vertical, 16)
 

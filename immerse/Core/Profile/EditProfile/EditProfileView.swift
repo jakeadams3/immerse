@@ -58,11 +58,12 @@ struct EditProfileView: View {
                         
                         Text("Change photo")
                             .font(.subheadline)
-                            .foregroundStyle(.black)
-                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                            .fontWeight(.bold)
                     }
                     .padding()
                 }
+                    .tint(.clear)
 
                     Divider()
 
