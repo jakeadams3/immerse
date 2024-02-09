@@ -41,22 +41,56 @@ struct ImageUploader {
 
 import UIKit
 import Firebase
+import FirebaseStorage
+import AVFoundation
 
 struct VideoUploader {
-    static func uploadVideoToStorage(withUrl url: URL) async throws -> String? {
+    static func uploadVideoToStorage(withUrl originalUrl: URL) async throws -> String? {
+        // Trims the video to the first 20 seconds
+        guard let trimmedVideoUrl = await trimVideo(url: originalUrl, duration: 20) else {
+            print("DEBUG: Failed to trim video")
+            return nil
+        }
+        
         let filename = NSUUID().uuidString
         let ref = Storage.storage().reference(withPath: "/post_videos/").child(filename)
         let metadata = StorageMetadata()
         metadata.contentType = "video/quicktime"
         
         do {
-            let data = try Data(contentsOf: url)
+            let data = try Data(contentsOf: trimmedVideoUrl)
             let _ = try await ref.putDataAsync(data, metadata: metadata)
             let url = try await ref.downloadURL()
             return url.absoluteString
         } catch {
             print("DEBUG: Failed to upload video with error: \(error.localizedDescription)")
             throw error
+        }
+    }
+    
+    static func trimVideo(url: URL, duration: Int) async -> URL? {
+        let asset = AVAsset(url: url)
+        let length = CMTimeGetSeconds(asset.duration)
+        let startTime = CMTime(seconds: 0, preferredTimescale: 600)
+        let endTime = CMTime(seconds: min(Double(duration), length), preferredTimescale: 600)
+        
+        let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)!
+        let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension("mov")
+        
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = .mov
+        exportSession.timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
+        
+        return await withCheckedContinuation { continuation in
+            exportSession.exportAsynchronously {
+                switch exportSession.status {
+                case .completed:
+                    continuation.resume(returning: outputURL)
+                default:
+                    print("DEBUG: Video trimming failed with error: \(String(describing: exportSession.error?.localizedDescription))")
+                    continuation.resume(returning: nil)
+                }
+            }
         }
     }
 }
