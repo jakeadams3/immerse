@@ -41,9 +41,11 @@ struct UploadPostView: View {
                 Button {
                     Task {
                         await viewModel.uploadPost()
-                        tabIndex = 0
-                        viewModel.reset()
-                        dismiss()
+                        if viewModel.error == nil {
+                            tabIndex = 0
+                            viewModel.reset()
+                            dismiss()
+                        }
                     }
                 } label: {
                     Text(viewModel.isLoading ? "" : "Post")
@@ -62,6 +64,12 @@ struct UploadPostView: View {
                         }
                 }
                 .disabled(viewModel.isLoading)
+                .alert("Error Uploading", isPresented: $viewModel.showErrorAlert) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text(viewModel.error?.localizedDescription ?? "An unexpected error occurred")
+                }
+                
                 Spacer()
             }
             .tint(.clear)

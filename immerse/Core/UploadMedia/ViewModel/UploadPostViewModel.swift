@@ -16,6 +16,7 @@ class UploadPostViewModel: ObservableObject {
     @Published var mediaPreview: Movie?
     @Published var caption = ""
     @Published var selectedMediaForUpload: Movie?
+    @Published var showErrorAlert = false // Will be used to trigger the alert
     @Published var selectedItem: PhotosPickerItem? {
         didSet { Task { await loadVideo(fromItem: selectedItem) } }
     }
@@ -27,14 +28,33 @@ class UploadPostViewModel: ObservableObject {
     }
     
     func uploadPost() async {
-        guard let videoUrlString = mediaPreview?.url.absoluteString else { return }
+        guard let videoUrl = selectedMediaForUpload?.url else { return }
         isLoading = true
         
+        // Check if the video file size is under 15MB
         do {
+            let resourceValues = try videoUrl.resourceValues(forKeys: [.fileSizeKey])
+            let fileSize = resourceValues.fileSize ?? 0
+            if fileSize > 15_000_000 { // More than 15MB
+                self.error = NSError(domain: "UploadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Videos cannot be larger than 15MB"])
+                self.showErrorAlert = true
+                isLoading = false
+                return
+            }
+        } catch {
+            self.error = error
+            self.showErrorAlert = true
+            isLoading = false
+            return
+        }
+        
+        do {
+            let videoUrlString = videoUrl.absoluteString
             try await service.uploadPost(caption: caption, videoUrlString: videoUrlString)
             isLoading = false
         } catch {
             self.error = error
+            self.showErrorAlert = true
             isLoading = false
         }
     }
