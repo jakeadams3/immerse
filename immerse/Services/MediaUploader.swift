@@ -46,8 +46,8 @@ import AVFoundation
 
 struct VideoUploader {
     static func uploadVideoToStorage(withUrl originalUrl: URL) async throws -> String? {
-        // Trims the video to the first 20 seconds
-        guard let trimmedVideoUrl = await trimVideo(url: originalUrl, duration: 20) else {
+        // Trims the video to the first 180 seconds
+        guard let trimmedVideoUrl = await trimVideo(url: originalUrl, duration: 180) else {
             print("DEBUG: Failed to trim video")
             return nil
         }

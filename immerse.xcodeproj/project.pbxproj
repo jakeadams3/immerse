@@ -89,6 +89,7 @@
 		57DF93FE2B1AA963006814D9 /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */; };
 		57E60FE22B66202A005588A4 /* SphereCut.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 57E60FE12B66202A005588A4 /* SphereCut.usdz */; };
 		57EDD7082B75D35B00970B61 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EDD7072B75D35B00970B61 /* TermsView.swift */; };
+		57EDD94B2B7C7ACA00970B61 /* SotoS3 in Frameworks */ = {isa = PBXBuildFile; productRef = 57EDD94A2B7C7ACA00970B61 /* SotoS3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -179,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57D017A52B0C16A100276F16 /* Kingfisher in Frameworks */,
+				57EDD94B2B7C7ACA00970B61 /* SotoS3 in Frameworks */,
 				574E9B4F2B098A8C005F3C86 /* RealityKitContent in Frameworks */,
 				576F16AF2B0BC1FE0071ACC7 /* FirebaseAuth in Frameworks */,
 				576F16AD2B0BC1F60071ACC7 /* FirebaseStorage in Frameworks */,
@@ -722,6 +724,7 @@
 				576F16AC2B0BC1F60071ACC7 /* FirebaseStorage */,
 				576F16AE2B0BC1FE0071ACC7 /* FirebaseAuth */,
 				57D017A42B0C16A100276F16 /* Kingfisher */,
+				57EDD94A2B7C7ACA00970B61 /* SotoS3 */,
 			);
 			productName = immerse;
 			productReference = 574E9B492B098A8C005F3C86 /* immerse.app */;
@@ -754,6 +757,7 @@
 			packageReferences = (
 				574E9C1D2B09AC0F005F3C86 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				57D017A32B0C16A100276F16 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				57EDD7092B7C7AC900970B61 /* XCRemoteSwiftPackageReference "soto" */,
 			);
 			productRefGroup = 574E9B4A2B098A8C005F3C86 /* Products */;
 			projectDirPath = "";
@@ -987,7 +991,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"immerse/Preview Content\"";
 				DEVELOPMENT_TEAM = 777D6AV5JC;
 				ENABLE_PREVIEWS = YES;
@@ -999,7 +1003,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jakeadams.immerse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
@@ -1016,7 +1020,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"immerse/Preview Content\"";
 				DEVELOPMENT_TEAM = 777D6AV5JC;
 				ENABLE_PREVIEWS = YES;
@@ -1028,7 +1032,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jakeadams.immerse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
@@ -1078,6 +1082,14 @@
 				minimumVersion = 7.10.0;
 			};
 		};
+		57EDD7092B7C7AC900970B61 /* XCRemoteSwiftPackageReference "soto" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soto-project/soto";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1109,6 +1121,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 57D017A32B0C16A100276F16 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		57EDD94A2B7C7ACA00970B61 /* SotoS3 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57EDD7092B7C7AC900970B61 /* XCRemoteSwiftPackageReference "soto" */;
+			productName = SotoS3;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
