@@ -200,7 +200,6 @@
 				573BA0092B50FD2D00BDF192 /* .gitignore */,
 				574E9B632B098B34005F3C86 /* immerse */,
 				574E9C1B2B09AB35005F3C86 /* GoogleService-Info.plist */,
-				57997AFD2B7F1F3B00D8B9EB /* Config.plist */,
 				574E9B4C2B098A8C005F3C86 /* Packages */,
 				574E9BC32B098B34005F3C86 /* Assets.xcassets */,
 				574E9B562B098A8C005F3C86 /* ImageBasedLighting.skybox */,
@@ -229,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				574E9B5D2B098A8E005F3C86 /* Info.plist */,
+				57997AFD2B7F1F3B00D8B9EB /* Config.plist */,
 				574E9BCB2B098B34005F3C86 /* Preview Content */,
 				574E9B642B098B34005F3C86 /* Core */,
 				574E9BC12B098B34005F3C86 /* App */,
