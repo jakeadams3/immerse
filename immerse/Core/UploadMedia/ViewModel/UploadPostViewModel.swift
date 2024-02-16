@@ -34,8 +34,8 @@ class UploadPostViewModel: ObservableObject {
         do {
             let resourceValues = try videoUrl.resourceValues(forKeys: [.fileSizeKey])
             let fileSize = resourceValues.fileSize ?? 0
-            if fileSize > 15_000_000 {
-                self.error = NSError(domain: "UploadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Videos cannot be larger than 15MB"])
+            if fileSize > 30_000_000 {
+                self.error = NSError(domain: "UploadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Videos cannot be larger than 30MB"])
                 self.showErrorAlert = true
                 isLoading = false
                 return
