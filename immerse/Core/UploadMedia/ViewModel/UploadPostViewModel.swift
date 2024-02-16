@@ -16,7 +16,7 @@ class UploadPostViewModel: ObservableObject {
     @Published var mediaPreview: Movie?
     @Published var caption = ""
     @Published var selectedMediaForUpload: Movie?
-    @Published var showErrorAlert = false // Will be used to trigger the alert
+    @Published var showErrorAlert = false
     @Published var selectedItem: PhotosPickerItem? {
         didSet { Task { await loadVideo(fromItem: selectedItem) } }
     }
@@ -31,11 +31,10 @@ class UploadPostViewModel: ObservableObject {
         guard let videoUrl = selectedMediaForUpload?.url else { return }
         isLoading = true
         
-        // Check if the video file size is under 15MB
         do {
             let resourceValues = try videoUrl.resourceValues(forKeys: [.fileSizeKey])
             let fileSize = resourceValues.fileSize ?? 0
-            if fileSize > 15_000_000 { // More than 15MB
+            if fileSize > 15_000_000 {
                 self.error = NSError(domain: "UploadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Videos cannot be larger than 15MB"])
                 self.showErrorAlert = true
                 isLoading = false
@@ -49,7 +48,13 @@ class UploadPostViewModel: ObservableObject {
         }
         
         do {
-            let videoUrlString = videoUrl.absoluteString
+            let videoUrlString = try await VideoUploader.uploadVideoToR2(withUrl: videoUrl)
+            guard let videoUrlString = videoUrlString else {
+                self.error = NSError(domain: "UploadError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to upload video to Cloudflare R2"])
+                self.showErrorAlert = true
+                isLoading = false
+                return
+            }
             try await service.uploadPost(caption: caption, videoUrlString: videoUrlString)
             isLoading = false
         } catch {
