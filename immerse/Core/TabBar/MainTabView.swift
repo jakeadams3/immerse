@@ -20,7 +20,7 @@ struct MainTabView: View {
         
     var body: some View {
         TabView(selection: $selectedTab) {
-            FeedView(player: $player)
+            FeedView()
                 .toolbarBackground(.black, for: .tabBar)
                 .tabItem {
                     VStack {

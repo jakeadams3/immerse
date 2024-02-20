@@ -8,24 +8,15 @@ import SwiftUI
 import AVKit
 
 struct FeedView: View {
-    @Binding var player: AVPlayer
     @StateObject var viewModel: FeedViewModel
     @State private var scrollPosition: String?
+    @State private var activePostId: String?
     
-    init(player: Binding<AVPlayer>, posts: [Post] = []) {
-        self._player = player
-        
+    init(posts: [Post] = []) {
         let viewModel = FeedViewModel(feedService: FeedService(),
                                       postService: PostService(),
                                       posts: posts)
         self._viewModel = StateObject(wrappedValue: viewModel)
-        
-        // Set the closure to update the player when posts are refreshed
-        viewModel.onPostsRefreshed = { [weak viewModel] in
-            if let firstPost = viewModel?.posts.first, !firstPost.isOwnerBlocked {
-                player.wrappedValue.replaceCurrentItem(with: AVPlayerItem(url: URL(string: firstPost.videoUrl)!))
-            }
-        }
     }
     
     var body: some View {
@@ -34,16 +25,26 @@ struct FeedView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         ForEach($viewModel.posts) { post in
-                            FeedCell(post: post, player: player, viewModel: viewModel)
+                            FeedCell(post: post, viewModel: viewModel, isActive: post.id == activePostId)
                                 .id(post.id)
-                                .onAppear { playInitialVideoIfNecessary(forPost: post.wrappedValue) }
+                                .onAppear {
+                                    if activePostId == nil {
+                                        activePostId = viewModel.posts.first?.id
+                                    }
+                                }
+                        }
+                        .onChange(of: scrollPosition) { newPosition in
+                            activePostId = newPosition
                         }
                     }
                     .scrollTargetLayout()
                 }
                 
                 Button {
-                    Task { await viewModel.refreshFeed() }
+                    Task {
+                        await viewModel.refreshFeed()
+                        activePostId = viewModel.posts.first?.id
+                    }
                 } label: {
                     Image(systemName: "arrow.counterclockwise")
                         .imageScale(.large)
@@ -55,8 +56,6 @@ struct FeedView: View {
                 .tint(.clear)
             }
             .background(.black)
-            .onAppear { player.play() }
-            .onDisappear { player.pause() }
             .overlay {
                 if viewModel.isLoading {
                     ProgressView()
@@ -71,39 +70,11 @@ struct FeedView: View {
             .navigationDestination(for: User.self, destination: { user in
                 ProfileView(user: user)
             })
-            .onChange(of: scrollPosition, { oldValue, newValue in
-                playVideoOnChangeOfScrollPosition(postId: newValue)
-            })
         }
-    }
-    
-    func playInitialVideoIfNecessary(forPost post: Post) {
-        if !post.isOwnerBlocked {
-            guard
-                scrollPosition == nil,
-                let firstPost = viewModel.posts.first,
-                player.currentItem == nil else { return }
-            
-            player.replaceCurrentItem(with: AVPlayerItem(url: URL(string: firstPost.videoUrl)!))
-        } else {
-            player.pause() // Pause if the first post is from a blocked user
-        }
-    }
-    
-    func playVideoOnChangeOfScrollPosition(postId: String?) {
-        guard let currentPost = viewModel.posts.first(where: {$0.id == postId }) else {
-            print("playVideoOnChangeOfScrollPosition: No post found for id \(postId ?? "nil")")
-            return
-        }
-        
-        print("playVideoOnChangeOfScrollPosition: Preparing to replace player item for post id \(postId ?? "nil")")
-        player.replaceCurrentItem(with: nil)
-        let playerItem = AVPlayerItem(url: URL(string: currentPost.videoUrl)!)
-        player.replaceCurrentItem(with: playerItem)
-        print("playVideoOnChangeOfScrollPosition: Player item replaced for post id \(postId ?? "nil")")
     }
 }
 
+
 #Preview {
-    FeedView(player: .constant(AVPlayer()), posts: DeveloperPreview.posts)
+    FeedView(posts: DeveloperPreview.posts)
 }

@@ -9,30 +9,51 @@ import AVKit
 
 struct FeedCell: View {
     @Binding var post: Post
-    var player: AVPlayer
     @ObservedObject var viewModel: FeedViewModel
+    @State private var player: AVPlayer = AVPlayer()
     @State private var expandCaption = false
     @State private var showComments = false
     @State private var showingDeleteAlert = false
     @State private var showingFlagAlert = false
-        
+    let isActive: Bool
+    
     private var didLike: Bool { return post.didLike }
     
     var body: some View {
         ZStack {
             if post.isOwnerBlocked {
-                // Display a placeholder or nothing if the post is from a blocked user
                 Color.black.opacity(0.7)
                     .overlay(Text("This post is from a blocked user.")
                         .foregroundColor(.white))
                     .containerRelativeFrame([.horizontal, .vertical])
             } else {
-                // Only create and show the VideoPlayer if the user is not blocked
                 VideoPlayerView(player: player)
+                    .onAppear {
+                        let playerItem = AVPlayerItem(url: URL(string: post.videoUrl)!)
+                        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: playerItem, queue: .main) { [self] _ in
+                            self.player.seek(to: CMTime.zero)
+                            self.player.play()
+                        }
+                        player.replaceCurrentItem(with: playerItem)
+                        if isActive {
+                            player.play()
+                        }
+                    }
+                    .onChange(of: isActive) { shouldPlay in
+                        if shouldPlay {
+                            player.play()
+                        } else {
+                            player.pause()
+                        }
+                    }
+                    .onDisappear {
+                        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
+                        player.pause()
+                        player.replaceCurrentItem(with: nil)
+                    }
                     .containerRelativeFrame([.horizontal, .vertical])
-
             }
-                    
+            
             VStack {
                 Spacer()
                 
@@ -82,7 +103,7 @@ struct FeedCell: View {
                                 player.pause()
                                 showComments.toggle()
                             } label: {
-                                FeedCellActionButtonView(imageName: "ellipsis.bubble", 
+                                FeedCellActionButtonView(imageName: "ellipsis.bubble",
                                                          value: post.commentCount,
                                                          height: 40,
                                                          width: 40)
@@ -118,7 +139,7 @@ struct FeedCell: View {
                                 Button {
                                     showingDeleteAlert = true
                                 } label: {
-                                    FeedCellActionButtonView(imageName: "trash", 
+                                    FeedCellActionButtonView(imageName: "trash",
                                                              value: post.shareCount,
                                                              height: 40,
                                                              width: 40)
@@ -169,19 +190,19 @@ struct FeedCell: View {
         }
         .blur(radius: post.isOwnerBlocked ? 20 : 0)
         .disabled(post.isOwnerBlocked) // Disable interaction if the post's owner is blocked
-                .overlay(
-                    Group {
-                        if post.isOwnerBlocked {
-                            Text("This post is from a blocked user.")
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color.black.opacity(0.7))
-                                .foregroundColor(.white)
-                                .font(.title)
-                        } else {
-                            EmptyView()
-                        }
-                    }
-                )
+        .overlay(
+            Group {
+                if post.isOwnerBlocked {
+                    Text("This post is from a blocked user.")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.black.opacity(0.7))
+                        .foregroundColor(.white)
+                        .font(.title)
+                } else {
+                    EmptyView()
+                }
+            }
+        )
     }
     
     private func handleLikeTapped() {
@@ -189,13 +210,15 @@ struct FeedCell: View {
     }
 }
 
+
 #Preview {
     FeedCell(
         post: .constant(DeveloperPreview.posts[0]),
-        player: AVPlayer(),
-             viewModel: FeedViewModel(
-                feedService: FeedService(),
-                postService: PostService()
-             )
+        viewModel: FeedViewModel(
+            feedService: FeedService(),
+            postService: PostService(),
+            posts: DeveloperPreview.posts
+        ),
+        isActive: true
     )
 }

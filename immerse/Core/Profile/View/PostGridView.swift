@@ -34,7 +34,7 @@ struct PostGridView: View {
                 }
             }
             .fullScreenCover(item: $selectedPost) { post in
-                FeedView(player: $player, posts: [post])
+                FeedView(posts: [post])
                     .overlay(
                         HStack {
                             Button(action: {
