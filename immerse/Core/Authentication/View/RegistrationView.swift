@@ -8,10 +8,12 @@ import SwiftUI
 
 struct RegistrationView: View {
     @StateObject var viewModel: RegistrationViewModel
+    private let service: AuthService
     @Environment(\.dismiss) var dismiss
     @State private var showTermsView = false
     
     init(service: AuthService) {
+        self.service = service
         self._viewModel = StateObject(wrappedValue: RegistrationViewModel(service: service))
     }
     
@@ -79,13 +81,14 @@ struct RegistrationView: View {
                 
                 Divider()
                 
-                Button {
-                    dismiss()
+                NavigationLink {
+                    LoginView(service: service)
+                        .navigationBarBackButtonHidden()
                 } label: {
                     HStack(spacing: 3) {
                         Text("Already have an account?")
                         
-                        Text("Sign in")
+                        Text("Sign In")
                             .fontWeight(.semibold)
                     }
                     .font(.callout)

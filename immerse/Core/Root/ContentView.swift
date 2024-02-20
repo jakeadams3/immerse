@@ -28,7 +28,7 @@ struct ContentView: View {
                         .environmentObject(viewModel)
                 }
             } else {
-                LoginView(service: authService)
+                RegistrationView(service: authService)
             }
         }
     }
