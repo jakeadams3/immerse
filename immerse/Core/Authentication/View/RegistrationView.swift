@@ -23,10 +23,10 @@ struct RegistrationView: View {
                 Spacer()
                 
                 // logo image
-                Image("ClipzyTransparent")
+                Image("ClipzyTransparent2")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 412, height: 150)
+                    .frame(width: 550, height: 200)
                     .padding()
                 
                 // text fields
