@@ -38,6 +38,10 @@ struct FeedCell: View {
                         if isActive {
                             player.play()
                         }
+                        
+                        if let index = viewModel.posts.firstIndex(where: { $0.id == post.id }) {
+                                viewModel.preloadVideoForNextPost(currentIndex: index)
+                            }
                     }
                     .onChange(of: isActive) { shouldPlay in
                         if shouldPlay {

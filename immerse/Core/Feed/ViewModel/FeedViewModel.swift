@@ -6,12 +6,14 @@
 
 import SwiftUI
 import FirebaseAuth
+import AVFoundation
 
 @MainActor
 class FeedViewModel: ObservableObject {
     @Published var posts = [Post]()
     @Published var isLoading = false
     @Published var showEmptyView = false
+    @Published var nextPlayer: AVPlayer? = nil
     
     private let feedService: FeedService
     private let postService: PostService
@@ -93,6 +95,18 @@ class FeedViewModel: ObservableObject {
             isLoading = false
             print("DEBUG: Failed to refresh posts with error: \(error.localizedDescription)")
         }
+    }
+    
+    func preloadVideoForNextPost(currentIndex: Int) {
+        let nextIndex = currentIndex + 1
+        guard nextIndex < posts.count else {
+            nextPlayer = nil // Clear next player if there's no next post
+            return
+        }
+        let nextPost = posts[nextIndex]
+        guard let url = URL(string: nextPost.videoUrl) else { return }
+        let playerItem = AVPlayerItem(url: url)
+        nextPlayer = AVPlayer(playerItem: playerItem)
     }
 }
 
