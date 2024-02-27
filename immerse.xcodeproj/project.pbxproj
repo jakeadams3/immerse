@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		573BA00A2B50FD2D00BDF192 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 573BA0092B50FD2D00BDF192 /* .gitignore */; };
-		574883B12B55F531005295DF /* CustomScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574883B02B55F531005295DF /* CustomScreenView.swift */; };
-		574883B32B55F613005295DF /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574883B22B55F613005295DF /* StartView.swift */; };
 		574E9B4F2B098A8C005F3C86 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 574E9B4E2B098A8C005F3C86 /* RealityKitContent */; };
 		574E9B572B098A8C005F3C86 /* ImageBasedLighting.skybox in Resources */ = {isa = PBXBuildFile; fileRef = 574E9B562B098A8C005F3C86 /* ImageBasedLighting.skybox */; };
 		574E9BD82B098B34005F3C86 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9B672B098B34005F3C86 /* CommentViewModel.swift */; };
@@ -84,11 +82,9 @@
 		576F16AB2B0BC1EB0071ACC7 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AA2B0BC1EB0071ACC7 /* FirebaseFirestoreSwift */; };
 		576F16AD2B0BC1F60071ACC7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AC2B0BC1F60071ACC7 /* FirebaseStorage */; };
 		576F16AF2B0BC1FE0071ACC7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AE2B0BC1FE0071ACC7 /* FirebaseAuth */; };
-		579115972B5DCD24009B3283 /* CurvedScreen.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 579115962B5DCD24009B3283 /* CurvedScreen.usdz */; };
 		57997AFE2B7F1F3B00D8B9EB /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57997AFD2B7F1F3B00D8B9EB /* Config.plist */; };
 		57D017A52B0C16A100276F16 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 57D017A42B0C16A100276F16 /* Kingfisher */; };
 		57DF93FE2B1AA963006814D9 /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */; };
-		57E60FE22B66202A005588A4 /* SphereCut.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 57E60FE12B66202A005588A4 /* SphereCut.usdz */; };
 		57EA9BF52B89166700828CBE /* flatPlane.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 57EA9BF42B89166600828CBE /* flatPlane.usdz */; };
 		57EA9BF72B898E9B00828CBE /* SpatialVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EA9BF62B898E9B00828CBE /* SpatialVideoPlayer.swift */; };
 		57EDD7082B75D35B00970B61 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EDD7072B75D35B00970B61 /* TermsView.swift */; };
@@ -97,8 +93,6 @@
 
 /* Begin PBXFileReference section */
 		573BA0092B50FD2D00BDF192 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		574883B02B55F531005295DF /* CustomScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScreenView.swift; sourceTree = "<group>"; };
-		574883B22B55F613005295DF /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		574E9B492B098A8C005F3C86 /* immerse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = immerse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		574E9B4D2B098A8C005F3C86 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		574E9B562B098A8C005F3C86 /* ImageBasedLighting.skybox */ = {isa = PBXFileReference; lastKnownFileType = file.skybox; path = ImageBasedLighting.skybox; sourceTree = "<group>"; };
@@ -171,10 +165,8 @@
 		574E9BD62B098B34005F3C86 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		574E9BD72B098B34005F3C86 /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		574E9C1B2B09AB35005F3C86 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		579115962B5DCD24009B3283 /* CurvedScreen.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = CurvedScreen.usdz; sourceTree = "<group>"; };
 		57997AFD2B7F1F3B00D8B9EB /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
-		57E60FE12B66202A005588A4 /* SphereCut.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = SphereCut.usdz; sourceTree = "<group>"; };
 		57EA9BF42B89166600828CBE /* flatPlane.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = flatPlane.usdz; sourceTree = "<group>"; };
 		57EA9BF62B898E9B00828CBE /* SpatialVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialVideoPlayer.swift; sourceTree = "<group>"; };
 		57EDD7072B75D35B00970B61 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
@@ -629,12 +621,8 @@
 			isa = PBXGroup;
 			children = (
 				574E9BC22B098B34005F3C86 /* ImmerseApp.swift */,
-				574883B02B55F531005295DF /* CustomScreenView.swift */,
 				57EA9BF62B898E9B00828CBE /* SpatialVideoPlayer.swift */,
-				574883B22B55F613005295DF /* StartView.swift */,
-				579115962B5DCD24009B3283 /* CurvedScreen.usdz */,
 				57EA9BF42B89166600828CBE /* flatPlane.usdz */,
-				57E60FE12B66202A005588A4 /* SphereCut.usdz */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -782,10 +770,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57E60FE22B66202A005588A4 /* SphereCut.usdz in Resources */,
 				573BA00A2B50FD2D00BDF192 /* .gitignore in Resources */,
 				574E9C1C2B09AB36005F3C86 /* GoogleService-Info.plist in Resources */,
-				579115972B5DCD24009B3283 /* CurvedScreen.usdz in Resources */,
 				57997AFE2B7F1F3B00D8B9EB /* Config.plist in Resources */,
 				574E9C122B098B34005F3C86 /* Preview Assets.xcassets in Resources */,
 				574E9C0D2B098B34005F3C86 /* Assets.xcassets in Resources */,
@@ -820,7 +806,6 @@
 				574E9BEF2B098B34005F3C86 /* ProfileViewModel.swift in Sources */,
 				574E9C112B098B34005F3C86 /* MediaHelpers.swift in Sources */,
 				574E9BFE2B098B34005F3C86 /* AuthError.swift in Sources */,
-				574883B12B55F531005295DF /* CustomScreenView.swift in Sources */,
 				574E9BF52B098B34005F3C86 /* FeedViewModel.swift in Sources */,
 				574E9BE92B098B34005F3C86 /* UserListConfig.swift in Sources */,
 				574E9BEC2B098B34005F3C86 /* UserListService.swift in Sources */,
@@ -854,7 +839,6 @@
 				574E9BF02B098B34005F3C86 /* CurrentUserProfileView.swift in Sources */,
 				574E9C002B098B34005F3C86 /* LoginView.swift in Sources */,
 				574E9C062B098B34005F3C86 /* NotificationsViewModel.swift in Sources */,
-				574883B32B55F613005295DF /* StartView.swift in Sources */,
 				574E9C042B098B34005F3C86 /* AuthenticationFormProtocol.swift in Sources */,
 				574E9C0E2B098B34005F3C86 /* StandardTextFieldModifier.swift in Sources */,
 				574E9BF92B098B34005F3C86 /* FeedService.swift in Sources */,
