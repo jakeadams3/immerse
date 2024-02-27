@@ -13,7 +13,7 @@ struct CustomScreenView: View {
     var body: some View {
         RealityView() { content in
             // Use the URL of the video from the web
-            let url = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4")!
+            let url = URL(string: "https://pub-f0b404514b5d424e9a73685eb0b9f638.r2.dev/spatial1.MOV")!
 
             // Create a simple AVPlayer
             let asset = AVURLAsset(url: url)
@@ -24,7 +24,7 @@ struct CustomScreenView: View {
             let videoMaterial = VideoMaterial(avPlayer: player)
 
             // Load the USDZ file
-            guard let curvedScreenEntity = try? Entity.load(named: "CurvedScreen") else {
+            guard let curvedScreenEntity = try? Entity.load(named: "flatPlane") else {
                 print("Error: USDZ file not loaded.")
                 return
             }

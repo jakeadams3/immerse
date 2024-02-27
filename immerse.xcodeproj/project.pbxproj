@@ -89,7 +89,8 @@
 		57D017A52B0C16A100276F16 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 57D017A42B0C16A100276F16 /* Kingfisher */; };
 		57DF93FE2B1AA963006814D9 /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */; };
 		57E60FE22B66202A005588A4 /* SphereCut.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 57E60FE12B66202A005588A4 /* SphereCut.usdz */; };
-		57EA9BE92B81BF3A00828CBE /* flatPlane.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 57EA9BE82B81BF3A00828CBE /* flatPlane.usdz */; };
+		57EA9BF52B89166700828CBE /* flatPlane.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 57EA9BF42B89166600828CBE /* flatPlane.usdz */; };
+		57EA9BF72B898E9B00828CBE /* SpatialVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EA9BF62B898E9B00828CBE /* SpatialVideoPlayer.swift */; };
 		57EDD7082B75D35B00970B61 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EDD7072B75D35B00970B61 /* TermsView.swift */; };
 		57EDD94B2B7C7ACA00970B61 /* SotoS3 in Frameworks */ = {isa = PBXBuildFile; productRef = 57EDD94A2B7C7ACA00970B61 /* SotoS3 */; };
 /* End PBXBuildFile section */
@@ -174,7 +175,8 @@
 		57997AFD2B7F1F3B00D8B9EB /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
 		57E60FE12B66202A005588A4 /* SphereCut.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = SphereCut.usdz; sourceTree = "<group>"; };
-		57EA9BE82B81BF3A00828CBE /* flatPlane.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = flatPlane.usdz; sourceTree = "<group>"; };
+		57EA9BF42B89166600828CBE /* flatPlane.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = flatPlane.usdz; sourceTree = "<group>"; };
+		57EA9BF62B898E9B00828CBE /* SpatialVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialVideoPlayer.swift; sourceTree = "<group>"; };
 		57EDD7072B75D35B00970B61 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -628,9 +630,10 @@
 			children = (
 				574E9BC22B098B34005F3C86 /* ImmerseApp.swift */,
 				574883B02B55F531005295DF /* CustomScreenView.swift */,
+				57EA9BF62B898E9B00828CBE /* SpatialVideoPlayer.swift */,
 				574883B22B55F613005295DF /* StartView.swift */,
 				579115962B5DCD24009B3283 /* CurvedScreen.usdz */,
-				57EA9BE82B81BF3A00828CBE /* flatPlane.usdz */,
+				57EA9BF42B89166600828CBE /* flatPlane.usdz */,
 				57E60FE12B66202A005588A4 /* SphereCut.usdz */,
 			);
 			path = App;
@@ -786,7 +789,7 @@
 				57997AFE2B7F1F3B00D8B9EB /* Config.plist in Resources */,
 				574E9C122B098B34005F3C86 /* Preview Assets.xcassets in Resources */,
 				574E9C0D2B098B34005F3C86 /* Assets.xcassets in Resources */,
-				57EA9BE92B81BF3A00828CBE /* flatPlane.usdz in Resources */,
+				57EA9BF52B89166700828CBE /* flatPlane.usdz in Resources */,
 				574E9B572B098A8C005F3C86 /* ImageBasedLighting.skybox in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -813,6 +816,7 @@
 				574E9BF32B098B34005F3C86 /* PostGridView.swift in Sources */,
 				574E9C012B098B34005F3C86 /* MockAuthService.swift in Sources */,
 				574E9BE02B098B34005F3C86 /* UploadPostView.swift in Sources */,
+				57EA9BF72B898E9B00828CBE /* SpatialVideoPlayer.swift in Sources */,
 				574E9BEF2B098B34005F3C86 /* ProfileViewModel.swift in Sources */,
 				574E9C112B098B34005F3C86 /* MediaHelpers.swift in Sources */,
 				574E9BFE2B098B34005F3C86 /* AuthError.swift in Sources */,
@@ -999,7 +1003,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"immerse/Preview Content\"";
 				DEVELOPMENT_TEAM = 777D6AV5JC;
 				ENABLE_PREVIEWS = YES;
@@ -1011,7 +1015,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.02;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jakeadams.immerse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
@@ -1028,7 +1032,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"immerse/Preview Content\"";
 				DEVELOPMENT_TEAM = 777D6AV5JC;
 				ENABLE_PREVIEWS = YES;
@@ -1040,7 +1044,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.02;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jakeadams.immerse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";

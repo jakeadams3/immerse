@@ -64,51 +64,20 @@ struct VideoUploader {
     }()
 
     static func uploadVideoToR2(withUrl originalUrl: URL) async throws -> String? {
-        guard let trimmedVideoUrl = await trimVideo(url: originalUrl, duration: 180) else {
-            print("DEBUG: Failed to trim video")
-            return nil
-        }
+            let filename = NSUUID().uuidString + ".mov"
+            let bucketName = "videos" // Use your actual R2 bucket name
 
-        let filename = NSUUID().uuidString + ".mov"
-
-        do {
-            let data = try Data(contentsOf: trimmedVideoUrl)
-            let bucketName = "videos" // Your R2 bucket name
-            let putRequest = S3.PutObjectRequest(body: .data(data), bucket: bucketName, contentType: "video/quicktime", key: filename)
-            _ = try await s3Client.putObject(putRequest)
-            
-            // Construct the URL using the r2.dev domain
-            let videoUrl = "https://pub-f0b404514b5d424e9a73685eb0b9f638.r2.dev/\(filename)"
-            return videoUrl
-        } catch {
-            print("DEBUG: Failed to upload video with error: \(error.localizedDescription)")
-            throw error
-        }
-    }
-    
-    static func trimVideo(url: URL, duration: Int) async -> URL? {
-        let asset = AVAsset(url: url)
-        let length = CMTimeGetSeconds(asset.duration)
-        let startTime = CMTime(seconds: 0, preferredTimescale: 600)
-        let endTime = CMTime(seconds: min(Double(duration), length), preferredTimescale: 600)
-        
-        let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)!
-        let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension("mov")
-        
-        exportSession.outputURL = outputURL
-        exportSession.outputFileType = .mov
-        exportSession.timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
-        
-        return await withCheckedContinuation { continuation in
-            exportSession.exportAsynchronously {
-                switch exportSession.status {
-                case .completed:
-                    continuation.resume(returning: outputURL)
-                default:
-                    print("DEBUG: Video trimming failed with error: \(String(describing: exportSession.error?.localizedDescription))")
-                    continuation.resume(returning: nil)
-                }
+            do {
+                let data = try Data(contentsOf: originalUrl)
+                let putRequest = S3.PutObjectRequest(body: .data(data), bucket: bucketName, contentType: "video/quicktime", key: filename)
+                _ = try await s3Client.putObject(putRequest)
+                
+                // Construct the URL using the r2.dev domain or your actual domain
+                let videoUrl = "https://pub-f0b404514b5d424e9a73685eb0b9f638.r2.dev/\(filename)"
+                return videoUrl
+            } catch {
+                print("DEBUG: Failed to upload video with error: \(error.localizedDescription)")
+                throw error
             }
         }
-    }
 }
