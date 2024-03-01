@@ -54,8 +54,9 @@ struct FeedView: View {
                         .padding(32)
                 }
                 .tint(.clear)
+                .offset(z: 1)
             }
-            .background(.black)
+            .background(.clear)
             .overlay {
                 if viewModel.isLoading {
                     ProgressView()

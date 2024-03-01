@@ -36,6 +36,7 @@ struct PostGridView: View {
             .fullScreenCover(item: $selectedPost) { post in
                 FeedView(posts: [post])
                     .overlay(
+                        ZStack {
                         HStack {
                             Button(action: {
                                 selectedPost = nil // This will dismiss the full-screen cover
@@ -45,10 +46,12 @@ struct PostGridView: View {
                                     .padding()
                                     .background(Circle().fill(Color.white.opacity(0.5)))
                             }
+                            .offset(z: 1)
                             Spacer()
                         }
                             .padding(.top)
                             .padding(.horizontal)
+                        }
                         , alignment: .topLeading
                     )
                     .onDisappear {

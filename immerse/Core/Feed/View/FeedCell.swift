@@ -27,7 +27,8 @@ struct FeedCell: View {
                         .foregroundColor(.white))
                     .containerRelativeFrame([.horizontal, .vertical])
             } else {
-                VideoPlayerView(player: player)
+                SpatialVideoPlayer(player: $player, videoURL: post.videoUrl)
+                    .scaledToFit()
                     .onAppear {
                         let playerItem = AVPlayerItem(url: URL(string: post.videoUrl)!)
                         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: playerItem, queue: .main) { [self] _ in
@@ -40,8 +41,8 @@ struct FeedCell: View {
                         }
                         
                         if let index = viewModel.posts.firstIndex(where: { $0.id == post.id }) {
-                                viewModel.preloadVideoForNextPost(currentIndex: index)
-                            }
+                            viewModel.preloadVideoForNextPost(currentIndex: index)
+                        }
                     }
                     .onChange(of: isActive) { shouldPlay in
                         if shouldPlay {
@@ -58,6 +59,7 @@ struct FeedCell: View {
                     .containerRelativeFrame([.horizontal, .vertical])
             }
             
+            ZStack {
             VStack {
                 Spacer()
                 
@@ -167,6 +169,7 @@ struct FeedCell: View {
                     .padding(.bottom, viewModel.isContainedInTabBar ? 80 : 12)
                 }
             }
+            .offset(z: 1)
             .fullScreenCover(isPresented: $showComments) {
                 NavigationView {
                     CommentsView(post: post)
@@ -207,6 +210,7 @@ struct FeedCell: View {
                 }
             }
         )
+    }
     }
     
     private func handleLikeTapped() {

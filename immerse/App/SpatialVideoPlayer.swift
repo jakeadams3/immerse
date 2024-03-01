@@ -39,6 +39,8 @@ struct SpatialVideoPlayer: View {
             // Scale the entity to 50% of its original size
 //            videoEntity.scale = SIMD3<Float>(0.5, 0.5, 0.5)
             
+            videoEntity.position = SIMD3<Float>(0, 0, 0.0001)
+            
             // Add the entity to the RealityView's content
             content.add(videoEntity)
 
