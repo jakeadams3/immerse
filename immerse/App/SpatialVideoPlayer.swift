@@ -8,7 +8,24 @@
 import SwiftUI
 import AVKit
 import RealityKit
+import UIKit
 
+struct SpatialVideoPlayerRepresentable: UIViewControllerRepresentable {
+    var player: AVPlayer
+    let videoURL: String
+
+    func makeUIViewController(context: Context) -> some UIViewController {
+        let viewController = UIViewController()
+        viewController.showSpatialVideoPlayer(player: player, videoURL: videoURL)
+        return viewController
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        // Update the view controller if needed.
+    }
+}
+
+// MARK: - SwiftUI View for displaying video content in RealityKit
 struct SpatialVideoPlayer: View {
     @Binding var player: AVPlayer
     let videoURL: String
@@ -20,7 +37,6 @@ struct SpatialVideoPlayer: View {
     
     var body: some View {
         RealityView { content in
-            // Ensure the URL is valid
             guard let url = URL(string: videoURL) else {
                 return
             }
@@ -28,22 +44,33 @@ struct SpatialVideoPlayer: View {
             let asset = AVURLAsset(url: url)
             let playerItem = AVPlayerItem(asset: asset)
             
-            // Use the provided AVPlayer instance
-            // Create a VideoPlayerComponent object supplying the AVPlayer object
             let videoPlayerComponent = VideoPlayerComponent(avPlayer: player)
-            
-            // Create an entity for display and add the VideoPlayerComponent to it
             let videoEntity = Entity()
             videoEntity.components[VideoPlayerComponent.self] = videoPlayerComponent
-            
-            // Scale the entity to 50% of its original size
-//            videoEntity.scale = SIMD3<Float>(0.5, 0.5, 0.5)
-            
             videoEntity.position = SIMD3<Float>(0, 0, 0.0001)
-            
-            // Add the entity to the RealityView's content
             content.add(videoEntity)
-
         }
+        .scaledToFit()
+    }
+}
+
+// MARK: - UIKit Integration using UIHostingController
+extension UIViewController {
+    func showSpatialVideoPlayer(player: AVPlayer, videoURL: String) {
+        let spatialVideoPlayerView = SpatialVideoPlayer(player: Binding.constant(player), videoURL: videoURL)
+        let hostingController = UIHostingController(rootView: spatialVideoPlayerView)
+        
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.didMove(toParent: self)
+        
+        // Auto Layout constraints
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
