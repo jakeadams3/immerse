@@ -17,12 +17,29 @@ struct MediaSelectorView: View {
         NavigationStack {
             VStack {
                 if let movie = viewModel.mediaPreview {
-                    VideoPlayer(player: player)
+                    SpatialVideoPlayerRepresentable(player: player, videoURL: movie.url.absoluteString)
+                        .scaleEffect(0.9)
                         .onAppear {
-                            player.replaceCurrentItem(with: AVPlayerItem(url: movie.url))
+                            let playerItem = AVPlayerItem(url: movie.url)
+                            NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: playerItem, queue: .main) { _ in
+                                self.player.seek(to: CMTime.zero)
+                                self.player.play()
+                            }
+                            player.replaceCurrentItem(with: playerItem)
                             player.play()
                         }
-                        .onDisappear { player.pause() }
+                        .onDisappear {
+                            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
+                            player.pause()
+                            player.replaceCurrentItem(with: nil)
+                        }
+                        .onTapGesture {
+                            if player.timeControlStatus == .playing {
+                                player.pause()
+                            } else {
+                                player.play()
+                            }
+                        }
                         .padding()
                 }
             }
