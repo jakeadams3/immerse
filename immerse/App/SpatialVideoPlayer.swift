@@ -48,6 +48,7 @@ struct SpatialVideoPlayer: View {
             let videoEntity = Entity()
             videoEntity.components[VideoPlayerComponent.self] = videoPlayerComponent
             videoEntity.position = SIMD3<Float>(0, 0, 0.0001)
+            videoEntity.scale = SIMD3<Float>(0.99, 0.99, 1)
             content.add(videoEntity)
         }
         .scaledToFit()

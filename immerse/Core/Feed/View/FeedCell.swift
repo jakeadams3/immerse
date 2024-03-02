@@ -64,7 +64,7 @@ struct FeedCell: View {
                     
                     ZStack(alignment: .bottom) {
                         Rectangle()
-                            .fill(LinearGradient(colors: [.clear, .black.opacity(0.15)],
+                            .fill(LinearGradient(colors: [.clear, .black.opacity(0.05)],
                                                  startPoint: .top,
                                                  endPoint: .bottom))
                         
