@@ -86,84 +86,90 @@ struct FeedCell: View {
                             
                             Spacer()
                             
-                            VStack(spacing: 28) {
-                                NavigationLink(value: post.user) {
-                                    ZStack(alignment: .bottom) {
-                                        CircularProfileImageView(user: post.user, size: .xLarge)
-                                    }
-                                }
-                                .padding(.bottom, 20)
-                                
-                                Button {
-                                    handleLikeTapped()
-                                } label: {
-                                    FeedCellActionButtonView(imageName: didLike ? "heart.fill" : "heart",
-                                                             value: post.likes,
-                                                             height: 40,
-                                                             width: 40,
-                                                             tintColor: didLike ? .red : .white)
-                                }
-                                
-                                Button {
-                                    player.pause()
-                                    showComments.toggle()
-                                } label: {
-                                    FeedCellActionButtonView(imageName: "ellipsis.bubble",
-                                                             value: post.commentCount,
-                                                             height: 40,
-                                                             width: 40)
-                                }
-                                
-                                Button {
-                                    if post.didFlag {
-                                        Task {
-                                            await viewModel.toggleFlagForPost(post)
-                                        }
-                                    } else {
-                                        showingFlagAlert = true
-                                    }
-                                } label: {
-                                    FeedCellActionButtonView(imageName: post.didFlag ? "flag.fill" : "flag",
-                                                             value: post.saveCount,
-                                                             height: 38,
-                                                             width: 38)
-                                }
-                                .alert(isPresented: $showingFlagAlert) {
-                                    Alert(
-                                        title: Text("Are you sure you want to report this post?"),
-                                        primaryButton: .destructive(Text("Report")) {
-                                            Task {
-                                                await viewModel.toggleFlagForPost(post)
-                                            }
-                                        },
-                                        secondaryButton: .cancel()
-                                    )
-                                }
-                                
-                                if post.user?.isCurrentUser ?? false {
-                                    Button {
-                                        showingDeleteAlert = true
-                                    } label: {
-                                        FeedCellActionButtonView(imageName: "trash",
-                                                                 value: post.shareCount,
-                                                                 height: 40,
-                                                                 width: 40)
-                                    }
-                                    .alert("Are you sure you want to delete this post?", isPresented: $showingDeleteAlert) {
-                                        Button("Delete", role: .destructive) {
-                                            Task {
-                                                await viewModel.deletePost(post)
-                                                await viewModel.refreshFeed()
+                                .ornament(
+                                    visibility: isActive ? .visible : .hidden,
+                                    attachmentAnchor: .scene(.trailing)
+                                ) {
+                                    VStack(spacing: 28) {
+                                        NavigationLink(value: post.user) {
+                                            ZStack(alignment: .bottom) {
+                                                CircularProfileImageView(user: post.user, size: .xLarge)
                                             }
                                         }
-                                        Button("Cancel", role: .cancel) { }
-                                    } message: {
-                                        Text("This action cannot be undone.")
+                                        .padding(.bottom, 20)
+                                        
+                                        Button {
+                                            handleLikeTapped()
+                                        } label: {
+                                            FeedCellActionButtonView(imageName: didLike ? "heart.fill" : "heart",
+                                                                     value: post.likes,
+                                                                     height: 40,
+                                                                     width: 40,
+                                                                     tintColor: didLike ? .red : .white)
+                                        }
+                                        
+                                        Button {
+                                            player.pause()
+                                            showComments.toggle()
+                                        } label: {
+                                            FeedCellActionButtonView(imageName: "ellipsis.bubble",
+                                                                     value: post.commentCount,
+                                                                     height: 40,
+                                                                     width: 40)
+                                        }
+                                        
+                                        Button {
+                                            if post.didFlag {
+                                                Task {
+                                                    await viewModel.toggleFlagForPost(post)
+                                                }
+                                            } else {
+                                                showingFlagAlert = true
+                                            }
+                                        } label: {
+                                            FeedCellActionButtonView(imageName: post.didFlag ? "flag.fill" : "flag",
+                                                                     value: post.saveCount,
+                                                                     height: 38,
+                                                                     width: 38)
+                                        }
+                                        .alert(isPresented: $showingFlagAlert) {
+                                            Alert(
+                                                title: Text("Are you sure you want to report this post?"),
+                                                primaryButton: .destructive(Text("Report")) {
+                                                    Task {
+                                                        await viewModel.toggleFlagForPost(post)
+                                                    }
+                                                },
+                                                secondaryButton: .cancel()
+                                            )
+                                        }
+                                        
+                                        if post.user?.isCurrentUser ?? false {
+                                            Button {
+                                                showingDeleteAlert = true
+                                            } label: {
+                                                FeedCellActionButtonView(imageName: "trash",
+                                                                         value: post.shareCount,
+                                                                         height: 40,
+                                                                         width: 40)
+                                            }
+                                            .alert("Are you sure you want to delete this post?", isPresented: $showingDeleteAlert) {
+                                                Button("Delete", role: .destructive) {
+                                                    Task {
+                                                        await viewModel.deletePost(post)
+                                                        await viewModel.refreshFeed()
+                                                    }
+                                                }
+                                                Button("Cancel", role: .cancel) { }
+                                            } message: {
+                                                Text("This action cannot be undone.")
+                                            }
+                                        }
                                     }
+                                    .tint(.clear)
+                                    .padding(.vertical)
+                                    .glassBackgroundEffect()
                                 }
-                            }
-                            .tint(.clear)
-                            .padding()
                         }
                         .padding(.bottom, viewModel.isContainedInTabBar ? 80 : 12)
                     }
