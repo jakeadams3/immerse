@@ -14,6 +14,7 @@ class FeedViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var showEmptyView = false
     @Published var nextPlayer: AVPlayer? = nil
+    @Published var preloadedPlayers: [String: AVPlayer] = [:]
     
     private let feedService: FeedService
     private let postService: PostService
@@ -97,17 +98,21 @@ class FeedViewModel: ObservableObject {
         }
     }
     
-    func preloadVideoForNextPost(currentIndex: Int) {
-        let nextIndex = currentIndex + 1
-        guard nextIndex < posts.count else {
-            nextPlayer = nil // Clear next player if there's no next post
-            return
+    func preloadNextVideos(currentIndex: Int) {
+            let preloadCount = 2
+            let startIndex = currentIndex + 1
+            let endIndex = min(startIndex + preloadCount, posts.count)
+
+            for index in startIndex..<endIndex {
+                let post = posts[index]
+                let playerItem = AVPlayerItem(url: URL(string: post.videoUrl)!)
+                playerItem.preferredForwardBufferDuration = TimeInterval(5)
+                playerItem.preferredPeakBitRate = 5000000
+
+                let player = AVPlayer(playerItem: playerItem)
+                preloadedPlayers[post.id] = player
+            }
         }
-        let nextPost = posts[nextIndex]
-        guard let url = URL(string: nextPost.videoUrl) else { return }
-        let playerItem = AVPlayerItem(url: url)
-        nextPlayer = AVPlayer(playerItem: playerItem)
-    }
 }
 
 // MARK: - Likes

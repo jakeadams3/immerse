@@ -31,6 +31,9 @@ struct FeedView: View {
                                     if activePostId == nil {
                                         activePostId = viewModel.posts.first?.id
                                     }
+                                    if let index = viewModel.posts.firstIndex(where: { $0.id == post.id }) {
+                                        viewModel.preloadNextVideos(currentIndex: index)
+                                    }
                                 }
                         }
                         .onChange(of: scrollPosition) { newPosition in

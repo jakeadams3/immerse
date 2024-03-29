@@ -10,7 +10,7 @@ import AVKit
 struct FeedCell: View {
     @Binding var post: Post
     @ObservedObject var viewModel: FeedViewModel
-    @State private var player: AVPlayer = AVPlayer()
+    @State private var player: AVPlayer
     @State private var expandCaption = false
     @State private var showComments = false
     @State private var showingDeleteAlert = false
@@ -18,6 +18,18 @@ struct FeedCell: View {
     let isActive: Bool
     
     private var didLike: Bool { return post.didLike }
+    
+    init(post: Binding<Post>, viewModel: FeedViewModel, isActive: Bool) {
+        self._post = post
+        self.viewModel = viewModel
+        self.isActive = isActive
+        
+        if let preloadedPlayer = viewModel.preloadedPlayers[post.wrappedValue.id] {
+            self._player = State(initialValue: preloadedPlayer)
+        } else {
+            self._player = State(initialValue: AVPlayer())
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -29,18 +41,19 @@ struct FeedCell: View {
             } else {
                 SpatialVideoPlayerRepresentable(player: player, videoURL: post.videoUrl)
                     .onAppear {
-                        let playerItem = AVPlayerItem(url: URL(string: post.videoUrl)!)
-                        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: playerItem, queue: .main) { [self] _ in
+                        if player.currentItem == nil {
+                            let playerItem = AVPlayerItem(url: URL(string: post.videoUrl)!)
+                            player.replaceCurrentItem(with: playerItem)
+                        }
+                        
+                        // Add observer for AVPlayerItemDidPlayToEndTime notification
+                        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { [self] _ in
                             self.player.seek(to: CMTime.zero)
                             self.player.play()
                         }
-                        player.replaceCurrentItem(with: playerItem)
+                        
                         if isActive {
                             player.play()
-                        }
-                        
-                        if let index = viewModel.posts.firstIndex(where: { $0.id == post.id }) {
-                            viewModel.preloadVideoForNextPost(currentIndex: index)
                         }
                     }
                     .onChange(of: isActive) { shouldPlay in
