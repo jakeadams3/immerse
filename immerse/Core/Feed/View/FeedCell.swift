@@ -196,8 +196,12 @@ struct FeedCell: View {
                                 showComments = false // This will dismiss the full-screen cover
                             }) {
                                 Image(systemName: "arrow.backward") // Using a system icon for the back button
-                                    .foregroundStyle(.black)
+                                    .imageScale(.large)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.white)
+                                    .shadow(radius: 4)
                             })
+                            .tint(.clear)
                     }
                 }
                 .onTapGesture {

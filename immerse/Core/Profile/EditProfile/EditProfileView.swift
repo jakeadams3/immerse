@@ -111,7 +111,13 @@ struct EditProfileView: View {
                     Button("Cancel") {
                         dismiss()
                     }
-                    .foregroundStyle(.black)
+                    .cornerRadius(40)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 40)
+                            .stroke(Color.white, lineWidth: 2)
+                    )
+                    .font(.title3)
+                    .foregroundColor(.white)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
@@ -131,7 +137,13 @@ struct EditProfileView: View {
                             }
                         }
                     }
-                    .foregroundStyle(.black)
+                    .cornerRadius(40)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 40)
+                            .stroke(Color.white, lineWidth: 2)
+                    )
+                    .font(.title3)
+                    .foregroundColor(.white)
                 }
             }
             .onChange(of: selectedPickerItem) { newValue in

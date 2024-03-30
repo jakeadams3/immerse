@@ -36,19 +36,31 @@ struct CurrentUserProfileView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
+                    
                     Button("Delete Account") {
                         showingDeleteAlert = true
                     }
-                    .foregroundColor(.red)
+                    .cornerRadius(40)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 40)
+                            .stroke(Color.red, lineWidth: 2)
+                    )
+                    .font(.title3)
+                    .foregroundColor(.white)
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Sign Out") {
                         authService.signout()
                     }
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.black)
+                    .cornerRadius(40)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 40)
+                            .stroke(Color.white, lineWidth: 2)
+                    )
+                    .font(.title3)
+                    .foregroundColor(.white)
+                    .padding(.trailing)
                 }
             }
             .alert(isPresented: $showingDeleteAlert) {
@@ -58,6 +70,7 @@ struct CurrentUserProfileView: View {
                       secondaryButton: .cancel()
                 )
             }
+            .tint(.clear)
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.inline)
         }

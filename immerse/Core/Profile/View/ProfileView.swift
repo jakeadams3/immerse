@@ -29,6 +29,7 @@ struct ProfileView: View {
         ScrollView {
                     VStack(spacing: 2) {
                         ProfileHeaderView(viewModel: viewModel)
+                            .tint(.clear)
                         
                         if viewModel.isBlocked {
                             // Display blurred view with overlay text for blocked user
@@ -44,6 +45,7 @@ struct ProfileView: View {
                         } else {
                             // Display PostGridView normally for non-blocked user
                             PostGridView(viewModel: viewModel)
+                                .tint(.clear)
                         }
                     }
                 }

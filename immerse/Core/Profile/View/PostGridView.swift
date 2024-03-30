@@ -42,15 +42,16 @@ struct PostGridView: View {
                                 selectedPost = nil // This will dismiss the full-screen cover
                             }) {
                                 Image(systemName: "arrow.backward")
-                                    .foregroundColor(.black)
-                                    .padding()
-                                    .background(Circle().fill(Color.white.opacity(0.5)))
+                                    .imageScale(.large)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.white)
+                                    .shadow(radius: 4)
+                                    .padding(32)
                             }
                             .offset(z: 1)
                             Spacer()
                         }
-                            .padding(.top)
-                            .padding(.horizontal)
+
                         }
                         , alignment: .topLeading
                     )
