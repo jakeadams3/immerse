@@ -41,11 +41,13 @@ struct ProfileHeaderView: View {
                     Text("Edit Profile")
                         .font(.title3)
                         .fontWeight(.semibold)
-                        .padding()
                         .frame(width: 400, height: 50)
-                        .foregroundStyle(.black)
-                        .background(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 40))
+                        .cornerRadius(40)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 40)
+                                .stroke(Color.white, lineWidth: 2)
+                        )
+                        .foregroundColor(.white)
                 }
             } else {
                 Button {

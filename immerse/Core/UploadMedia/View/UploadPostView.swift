@@ -16,14 +16,23 @@ struct UploadPostView: View {
         GeometryReader { geometry in
             let width = (geometry.size.width / 1.5) - 2
             let height = (width * 9) / 16
+            
             VStack {
-                TextField("Enter your caption..", text: $viewModel.caption)
-                    .textFieldStyle(.roundedBorder)
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .tint(.white)
+                Text("Caption:")
+                    .font(.largeTitle)
+                    .padding(.top)
                 
-                Spacer()
+                HStack {
+                    Spacer(minLength: 200)
+                    
+                    TextField("Enter your caption...", text: $viewModel.caption)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .padding(.bottom, 50)
+                    
+                    Spacer(minLength: 200)
+                }
                 
                 Text("Thumbnail:")
                     .font(.largeTitle)
@@ -37,43 +46,9 @@ struct UploadPostView: View {
                 }
                 
                 Spacer()
-                
-                Button {
-                    Task {
-                        await viewModel.uploadPost()
-                        if viewModel.error == nil {
-                            tabIndex = 0
-                            viewModel.reset()
-                            dismiss()
-                        }
-                    }
-                } label: {
-                    Text(viewModel.isLoading ? "" : "Post")
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .padding()
-                        .frame(width: 500, height: 62)
-                        .foregroundStyle(.black)
-                        .background(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 40))
-                        .overlay {
-                            if viewModel.isLoading {
-                                ProgressView()
-                                    .tint(.black)
-                            }
-                        }
-                }
-                .disabled(viewModel.isLoading)
-                .alert("Error Uploading", isPresented: $viewModel.showErrorAlert) {
-                    Button("OK", role: .cancel) { }
-                } message: {
-                    Text(viewModel.error?.localizedDescription ?? "An unexpected error occurred")
-                }
-                
-                Spacer()
             }
-            .tint(.clear)
             .padding()
+            .frame(maxWidth: .infinity)
             .navigationTitle("Post")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
@@ -85,6 +60,36 @@ struct UploadPostView: View {
                         Image(systemName: "chevron.left")
                     }
                     .foregroundStyle(.black)
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        Task {
+                            await viewModel.uploadPost()
+                            if viewModel.error == nil {
+                                tabIndex = 0
+                                viewModel.reset()
+                                dismiss()
+                            }
+                        }
+                    } label: {
+                        Text(viewModel.isLoading ? "" : "Post!")
+                            .font(.title2)
+                                    .fontWeight(.semibold)
+                                    .padding(.horizontal)
+                                    .foregroundStyle(.black)
+                                    .overlay {
+                                        if viewModel.isLoading {
+                                            ProgressView()
+                                        }
+                                    }
+                    }
+                    .disabled(viewModel.isLoading)
+                    .alert("Error Uploading", isPresented: $viewModel.showErrorAlert) {
+                        Button("OK", role: .cancel) { }
+                    } message: {
+                        Text(viewModel.error?.localizedDescription ?? "An unexpected error occurred")
+                    }
                 }
             }
             .onAppear {
