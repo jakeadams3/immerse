@@ -29,9 +29,11 @@ struct CurrentUserProfileView: View {
                     ProfileHeaderView(viewModel: profileViewModel)
                         .padding(.top)
                     
-                    PostGridView(viewModel: profileViewModel)
+                    VStack {
+                        PostGridView(viewModel: profileViewModel)
+                        Spacer(minLength: 1350) // Add a Spacer at the bottom
+                    }
                     
-                    // Optionally, place the Delete Account button here instead of in the toolbar
                 }
             }
             .toolbar {

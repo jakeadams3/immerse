@@ -43,9 +43,12 @@ struct ProfileView: View {
                                 )
                                 .padding([.top, .leading, .trailing])
                         } else {
-                            // Display PostGridView normally for non-blocked user
-                            PostGridView(viewModel: viewModel)
-                                .tint(.clear)
+                            VStack {
+                                // Display PostGridView normally for non-blocked user
+                                PostGridView(viewModel: viewModel)
+                                    .tint(.clear)
+                                Spacer(minLength: 1350) // Add a Spacer at the bottom
+                            }
                         }
                     }
                 }
