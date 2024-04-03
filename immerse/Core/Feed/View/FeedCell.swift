@@ -183,6 +183,36 @@ struct FeedCell: View {
                                     .padding(.vertical)
                                     .glassBackgroundEffect()
                                 }
+                            // ADD THE STARS ORNAMENT HERE
+                                .ornament(
+                                    visibility: isActive ? .visible : .hidden,
+                                    attachmentAnchor: .scene(.bottom)
+                                ) {
+                                    VStack {
+                                        Text("12.6k votes")
+                                            .padding(.top)
+                                        
+                                        HStack {
+                                            ForEach(0..<5) { _ in
+                                                Button {
+                                                    
+                                                } label: {
+                                                    Image(systemName: "star.fill")
+                                                        .resizable()
+                                                        .frame(width: 40, height: 40)
+                                                        .foregroundStyle(.yellow)
+                                                        .shadow(radius: 2)
+                                                        .padding(.bottom)
+                                                }
+                                            }
+                                            Text("4.85")
+                                                .font(.title2)
+                                                .padding([.trailing, .bottom])
+                                        }
+                                    }
+                                    .tint(.clear)
+                                    .glassBackgroundEffect()
+                                }
                         }
                         .padding(.bottom, viewModel.isContainedInTabBar ? 80 : 12)
                     }
@@ -239,7 +269,6 @@ struct FeedCell: View {
         Task { didLike ? await viewModel.unlike(post) : await viewModel.like(post) }
     }
 }
-
 
 #Preview {
     FeedCell(

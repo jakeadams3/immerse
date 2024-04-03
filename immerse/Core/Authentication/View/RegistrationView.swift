@@ -68,6 +68,27 @@ struct RegistrationView: View {
                 .opacity(formIsValid ? 1 : 0.7)
                 .padding(.vertical)
                 
+                Text("Or:")
+                    .font(.headline)
+                
+                Button {
+                    viewModel.startSignInWithAppleFlow()
+                } label: {
+                    HStack {
+                        Image("apple1")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                        Text("Sign in with Apple")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                    }
+                    .frame(width: 340, height: 50)
+                    .background(Color.black)
+                    .clipShape(Capsule())
+                }
+                .shadow(color: .gray.opacity(0.5), radius: 10, x: 0, y: 0)
+                .padding(.vertical)
+                
                 Spacer()
                 
                 Button {

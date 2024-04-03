@@ -63,4 +63,15 @@ class AuthService {
                 throw error
             }
         }
+    
+    func createUserWithApple(uid: String, email: String, username: String, fullname: String) async throws {
+            do {
+                let user = User(id: uid, username: username, email: email, fullname: fullname)
+                let userData = try Firestore.Encoder().encode(user)
+                try await FirestoreConstants.UserCollection.document(uid).setData(userData)
+            } catch {
+                print("DEBUG: Failed to create user with Apple: \(error.localizedDescription)")
+                throw error
+            }
+        }
 }
