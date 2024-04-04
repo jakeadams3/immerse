@@ -78,6 +78,7 @@
 		574E9C192B098B34005F3C86 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9BD62B098B34005F3C86 /* UserService.swift */; };
 		574E9C1A2B098B34005F3C86 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E9BD72B098B34005F3C86 /* PostService.swift */; };
 		574E9C1C2B09AB36005F3C86 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 574E9C1B2B09AB35005F3C86 /* GoogleService-Info.plist */; };
+		57531B612BBE4B1700710ADF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 57531B602BBE4B1700710ADF /* PrivacyInfo.xcprivacy */; };
 		576F16A92B0BC1E30071ACC7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16A82B0BC1E30071ACC7 /* FirebaseFirestore */; };
 		576F16AB2B0BC1EB0071ACC7 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AA2B0BC1EB0071ACC7 /* FirebaseFirestoreSwift */; };
 		576F16AD2B0BC1F60071ACC7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AC2B0BC1F60071ACC7 /* FirebaseStorage */; };
@@ -166,6 +167,7 @@
 		574E9BD72B098B34005F3C86 /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		574E9C1B2B09AB35005F3C86 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57531B5F2BBC70E300710ADF /* immerse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = immerse.entitlements; sourceTree = "<group>"; };
+		57531B602BBE4B1700710ADF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		57997AFD2B7F1F3B00D8B9EB /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
 		57EA9BF42B89166600828CBE /* flatPlane.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = flatPlane.usdz; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				57531B5F2BBC70E300710ADF /* immerse.entitlements */,
 				574E9B5D2B098A8E005F3C86 /* Info.plist */,
 				57997AFD2B7F1F3B00D8B9EB /* Config.plist */,
+				57531B602BBE4B1700710ADF /* PrivacyInfo.xcprivacy */,
 				574E9BCB2B098B34005F3C86 /* Preview Content */,
 				574E9B642B098B34005F3C86 /* Core */,
 				574E9BC12B098B34005F3C86 /* App */,
@@ -778,6 +781,7 @@
 				574E9C122B098B34005F3C86 /* Preview Assets.xcassets in Resources */,
 				574E9C0D2B098B34005F3C86 /* Assets.xcassets in Resources */,
 				57EA9BF52B89166700828CBE /* flatPlane.usdz in Resources */,
+				57531B612BBE4B1700710ADF /* PrivacyInfo.xcprivacy in Resources */,
 				574E9B572B098A8C005F3C86 /* ImageBasedLighting.skybox in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
