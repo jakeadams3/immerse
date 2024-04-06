@@ -85,4 +85,80 @@ extension PostService {
             let document = try? await flaggerRef.getDocument()
         return document!.exists
         }
+    
+    func ratePost(_ post: Post, rating: Int) async throws {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let ratingRef = FirestoreConstants.PostsCollection.document(post.id).collection("star-ratings").document(uid)
+        let ratingData: [String: Any] = ["rating": "\(rating)/1"]
+        
+        try await ratingRef.setData(ratingData)
+        
+        try await updateAverageRating(for: post)
+    }
+
+    func updateAverageRating(for post: Post) async throws {
+        let ratingsSnapshot = try await FirestoreConstants.PostsCollection.document(post.id).collection("star-ratings").getDocuments()
+        
+        let ratingsCount = ratingsSnapshot.documents.count
+        let ratingsSum = ratingsSnapshot.documents.reduce(0) { sum, document in
+            let rating = document.data()["rating"] as? String ?? "0/1"
+            let components = rating.components(separatedBy: "/")
+            guard let numerator = Int(components[0]), let denominator = Int(components[1]) else { return sum }
+            return sum + numerator
+        }
+        
+        let averageRating = ratingsCount > 0 ? "\(ratingsSum)/\(ratingsCount)" : "0/1"
+        
+        try await FirestoreConstants.PostsCollection.document(post.id).updateData([
+            "averageRating": averageRating,
+            "ratings": ratingsCount
+        ])
+    }
+
+    func removePostRating(_ post: Post) async throws {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let ratingRef = FirestoreConstants.PostsCollection.document(post.id).collection("star-ratings").document(uid)
+        
+        try await ratingRef.delete()
+        try await updateAverageRating(for: post)
+    }
+
+    func getAverageRatingForPost(_ post: Post) async -> String {
+        let postSnapshot = try? await FirestoreConstants.PostsCollection.document(post.id).getDocument()
+        return postSnapshot?.data()?["averageRating"] as? String ?? "0/1"
+    }
+    
+    func getUpdatedPostData(_ post: Post) async throws -> Post {
+        let postSnapshot = try await FirestoreConstants.PostsCollection.document(post.id).getDocument()
+        
+        guard let postData = postSnapshot.data() else {
+            throw NSError(domain: "PostService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch updated post data"])
+        }
+        
+        let averageRating = postData["averageRating"] as? String ?? "0/1"
+        let ratings = postData["ratings"] as? Int ?? 0
+        
+        var updatedPost = post
+        updatedPost.averageRating = averageRating
+        updatedPost.ratings = ratings
+        
+        return updatedPost
+    }
+    
+    func checkIfUserRatedPost(_ post: Post) async throws -> Int {
+        guard let uid = Auth.auth().currentUser?.uid else { return 0 }
+        
+        let ratingSnapshot = try await FirestoreConstants.PostsCollection.document(post.id).collection("star-ratings").document(uid).getDocument()
+        
+        if ratingSnapshot.exists {
+            let ratingData = ratingSnapshot.data()
+            let rating = ratingData?["rating"] as? String ?? "0/1"
+            let components = rating.components(separatedBy: "/")
+            return Int(components[0]) ?? 0
+        }
+        
+        return 0
+    }
 }

@@ -43,6 +43,7 @@ class FeedViewModel: ObservableObject {
             showEmptyView = posts.isEmpty
             await checkIfUserLikedPosts()
             await checkIfUserFlaggedPosts()
+            await checkIfUserRatedPosts()
             await checkIfPostOwnersAreBlocked()
         } catch {
             isLoading = false
@@ -61,6 +62,7 @@ class FeedViewModel: ObservableObject {
                 onPostsRefreshed?()  // Call the closure after successfully refreshing posts
                 await checkIfUserLikedPosts()
                 await checkIfUserFlaggedPosts()
+                await checkIfUserRatedPosts()
                 await checkIfPostOwnersAreBlocked()
             } catch {
                 isLoading = false
@@ -231,4 +233,53 @@ extension FeedViewModel {
                 }
             }
         }
+    
+    func ratePost(_ post: Post, rating: Int) async {
+        guard let index = posts.firstIndex(where: { $0.id == post.id }) else { return }
+        
+        do {
+            try await postService.ratePost(post, rating: rating)
+            let updatedPost = try await postService.getUpdatedPostData(post)
+            posts[index].averageRating = updatedPost.averageRating
+            posts[index].ratings = updatedPost.ratings
+        } catch {
+            print("DEBUG: Failed to rate post with error \(error.localizedDescription)")
+            // Revert the userRating to the previous value if the rating update fails
+            posts[index].userRating = post.userRating
+        }
+    }
+    
+    func removePostRating(_ post: Post) async {
+        guard let index = posts.firstIndex(where: { $0.id == post.id }) else { return }
+        
+        do {
+            try await postService.removePostRating(post)
+            let updatedPost = try await postService.getUpdatedPostData(post)
+            posts[index].averageRating = updatedPost.averageRating
+            posts[index].ratings = updatedPost.ratings
+        } catch {
+            print("DEBUG: Failed to remove post rating with error \(error.localizedDescription)")
+            // Revert the userRating to the previous value if the rating removal fails
+            posts[index].userRating = post.userRating
+        }
+    }
+    
+    func checkIfUserRatedPosts() async {
+        guard !posts.isEmpty else { return }
+        var updatedPosts = posts
+        
+        for i in 0..<updatedPosts.count {
+            do {
+                let post = updatedPosts[i]
+                let userRating = try await postService.checkIfUserRatedPost(post)
+                updatedPosts[i].userRating = userRating
+            } catch {
+                print("DEBUG: Failed to check if user rated post with error: \(error.localizedDescription)")
+            }
+        }
+        
+        await MainActor.run {
+            posts = updatedPosts
+        }
+    }
 }

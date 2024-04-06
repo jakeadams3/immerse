@@ -189,23 +189,24 @@ struct FeedCell: View {
                                     attachmentAnchor: .scene(.bottom)
                                 ) {
                                     VStack {
-                                        Text("12.6k votes")
+                                        Text("\(post.ratings) ratings")
                                             .padding(.top)
                                         
                                         HStack {
-                                            ForEach(0..<5) { _ in
+                                            ForEach(1...5, id: \.self) { rating in
                                                 Button {
-                                                    
+                                                    handleStarTapped(rating)
                                                 } label: {
                                                     Image(systemName: "star.fill")
                                                         .resizable()
                                                         .frame(width: 40, height: 40)
-                                                        .foregroundStyle(.yellow)
+                                                        .foregroundStyle(post.userRating >= rating ? .yellow : .gray)
                                                         .shadow(radius: 2)
                                                         .padding(.bottom)
                                                 }
                                             }
-                                            Text("4.85")
+                                            
+                                            Text(formatAverageRating(post.averageRating))
                                                 .font(.title2)
                                                 .padding([.trailing, .bottom])
                                         }
@@ -267,6 +268,27 @@ struct FeedCell: View {
     
     private func handleLikeTapped() {
         Task { didLike ? await viewModel.unlike(post) : await viewModel.like(post) }
+    }
+    
+    private func handleStarTapped(_ rating: Int) {
+        Task {
+            if post.userRating == rating {
+                post.userRating = 0
+                await viewModel.removePostRating(post)
+            } else {
+                post.userRating = rating
+                await viewModel.ratePost(post, rating: rating)
+            }
+        }
+    }
+    
+    func formatAverageRating(_ averageRating: String) -> String {
+        let components = averageRating.components(separatedBy: "/")
+        guard let numerator = Double(components[0]), let denominator = Double(components[1]), denominator != 0 else {
+            return "0.00"
+        }
+        let formattedRating = String(format: "%.2f", numerator / denominator)
+        return formattedRating
     }
 }
 

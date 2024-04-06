@@ -21,12 +21,14 @@ struct Post: Identifiable, Codable {
     var views: Int
     var thumbnailUrl: String
     var timestamp: Timestamp
-    
     var user: User?
     var didLike = false
     var didSave = false
     var didFlag: Bool = false
     var isOwnerBlocked: Bool = false
+    var userRating: Int = 0
+    var averageRating: String = "0/1"
+    var ratings: Int = 0
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -44,6 +46,9 @@ struct Post: Identifiable, Codable {
         self.user = try container.decodeIfPresent(User.self, forKey: .user)
         self.didLike = try container.decodeIfPresent(Bool.self, forKey: .didLike) ?? false
         self.didSave = try container.decodeIfPresent(Bool.self, forKey: .didSave) ?? false
+        self.userRating = try container.decodeIfPresent(Int.self, forKey: .userRating) ?? 0
+        self.averageRating = try container.decodeIfPresent(String.self, forKey: .averageRating) ?? "0/1"
+        self.ratings = try container.decodeIfPresent(Int.self, forKey: .ratings) ?? 0
     }
     
     init(
@@ -60,7 +65,10 @@ struct Post: Identifiable, Codable {
         timestamp: Timestamp,
         user: User? = nil,
         didLike: Bool = false,
-        didSave: Bool = false
+        didSave: Bool = false,
+        userRating: Int = 0,
+        averageRating: String = "0/1",
+        ratings: Int = 0
     ) {
         self.id = id
         self.videoUrl = videoUrl
@@ -76,6 +84,9 @@ struct Post: Identifiable, Codable {
         self.user = user
         self.didLike = didLike
         self.didSave = didSave
+        self.userRating = userRating
+        self.averageRating = averageRating
+        self.ratings = ratings
     }
 }
 

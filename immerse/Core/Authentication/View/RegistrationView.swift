@@ -68,7 +68,7 @@ struct RegistrationView: View {
                 .opacity(formIsValid ? 1 : 0.7)
                 .padding(.vertical)
                 
-                Text("Or:")
+                Text("Or")
                     .font(.headline)
                 
                 Button {
