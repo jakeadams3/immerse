@@ -52,34 +52,51 @@ class FeedViewModel: ObservableObject {
     }
     
     func refreshFeed() async {
-            posts.removeAll()
-            isLoading = true
+        posts.removeAll()
+        isLoading = true
+        
+        do {
+            posts = try await feedService.fetchPosts()
+            posts.shuffle()
+            isLoading = false
             
-            do {
-                posts = try await feedService.fetchPosts()
-                posts.shuffle()
-                isLoading = false
-                onPostsRefreshed?()  // Call the closure after successfully refreshing posts
-                await checkIfUserLikedPosts()
-                await checkIfUserFlaggedPosts()
-                await checkIfUserRatedPosts()
-                await checkIfPostOwnersAreBlocked()
-            } catch {
-                isLoading = false
-                print("DEBUG: Failed to refresh posts with error: \(error.localizedDescription)")
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask {
+                    await self.checkIfUserLikedPosts()
+                }
+                group.addTask {
+                    await self.checkIfUserFlaggedPosts()
+                }
+                group.addTask {
+                    await self.checkIfUserRatedPosts()
+                }
+                group.addTask {
+                    await self.checkIfPostOwnersAreBlocked()
+                }
             }
+        } catch {
+            isLoading = false
+            print("DEBUG: Failed to refresh posts with error: \(error.localizedDescription)")
         }
+    }
     
     func checkIfPostOwnersAreBlocked() async {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        
         let blockedUsersRef = FirestoreConstants.UserCollection.document(currentUserUid).collection("blocked-users")
-
-        for i in 0..<posts.count {
-            let ownerUid = posts[i].ownerUid
-            let document = try? await blockedUsersRef.document(ownerUid).getDocument()
-            if let isBlocked = document?.exists {
-                DispatchQueue.main.async {
-                    self.posts[i].isOwnerBlocked = isBlocked
+        
+        await withTaskGroup(of: Void.self) { group in
+            for i in 0..<posts.count {
+                group.addTask {
+                    let ownerUid = await self.posts[i].ownerUid
+                    
+                    let document = try? await blockedUsersRef.document(ownerUid).getDocument()
+                    
+                    if let isBlocked = document?.exists {
+                        await MainActor.run {
+                            self.posts[i].isOwnerBlocked = isBlocked
+                        }
+                    }
                 }
             }
         }
@@ -150,23 +167,23 @@ extension FeedViewModel {
     
     func checkIfUserLikedPosts() async {
         guard !posts.isEmpty else { return }
-        var copy = posts
         
-        for i in 0 ..< copy.count {
-            do {
-                let post = copy[i]
-                let didLike = try await self.postService.checkIfUserLikedPost(post)
-                
-                if didLike {
-                    copy[i].didLike = didLike
+        await withTaskGroup(of: Void.self) { group in
+            for i in 0..<posts.count {
+                group.addTask {
+                    do {
+                        let post = await self.posts[i]
+                        let didLike = try await self.postService.checkIfUserLikedPost(post)
+                        
+                        await MainActor.run {
+                            self.posts[i].didLike = didLike
+                        }
+                    } catch {
+                        print("DEBUG: Failed to check if user liked post")
+                    }
                 }
-                
-            } catch {
-                print("DEBUG: Failed to check if user liked post")
             }
         }
-        
-        posts = copy
     }
     
     func deletePost(_ post: Post) async {
@@ -216,23 +233,27 @@ extension FeedViewModel {
             }
         }
     
+    
     func checkIfUserFlaggedPosts() async {
-            guard !posts.isEmpty else { return }
-            var copy = posts
-            
-            for i in 0 ..< copy.count {
-                do {
-                    let post = copy[i]
-                    let didFlag = await self.postService.isPostFlaggedByUser(post.id, flaggerUid: Auth.auth().currentUser?.uid ?? "")
-                    
-                    DispatchQueue.main.async { [weak self] in
-                        self?.posts[i].didFlag = didFlag
+        guard !posts.isEmpty else { return }
+        
+        await withTaskGroup(of: Void.self) { group in
+            for i in 0..<posts.count {
+                group.addTask {
+                    do {
+                        let post = await self.posts[i]
+                        let didFlag = await self.postService.isPostFlaggedByUser(post.id, flaggerUid: Auth.auth().currentUser?.uid ?? "")
+                        
+                        await MainActor.run {
+                            self.posts[i].didFlag = didFlag
+                        }
+                    } catch {
+                        print("DEBUG: Failed to check if user flagged post with error: \(error.localizedDescription)")
                     }
-                } catch {
-                    print("DEBUG: Failed to check if user flagged post with error: \(error.localizedDescription)")
                 }
             }
         }
+    }
     
     func ratePost(_ post: Post, rating: Int) async {
         guard let index = posts.firstIndex(where: { $0.id == post.id }) else { return }
@@ -266,20 +287,22 @@ extension FeedViewModel {
     
     func checkIfUserRatedPosts() async {
         guard !posts.isEmpty else { return }
-        var updatedPosts = posts
         
-        for i in 0..<updatedPosts.count {
-            do {
-                let post = updatedPosts[i]
-                let userRating = try await postService.checkIfUserRatedPost(post)
-                updatedPosts[i].userRating = userRating
-            } catch {
-                print("DEBUG: Failed to check if user rated post with error: \(error.localizedDescription)")
+        await withTaskGroup(of: Void.self) { group in
+            for i in 0..<posts.count {
+                group.addTask {
+                    do {
+                        let post = await self.posts[i]
+                        let userRating = try await self.postService.checkIfUserRatedPost(post)
+                        
+                        await MainActor.run {
+                            self.posts[i].userRating = userRating
+                        }
+                    } catch {
+                        print("DEBUG: Failed to check if user rated post with error: \(error.localizedDescription)")
+                    }
+                }
             }
-        }
-        
-        await MainActor.run {
-            posts = updatedPosts
         }
     }
 }

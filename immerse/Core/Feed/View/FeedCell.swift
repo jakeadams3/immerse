@@ -197,10 +197,10 @@ struct FeedCell: View {
                                                 Button {
                                                     handleStarTapped(rating)
                                                 } label: {
-                                                    Image(systemName: "star.fill")
+                                                    Image(systemName: post.userRating >= rating ? "star.fill" : "star")
                                                         .resizable()
                                                         .frame(width: 40, height: 40)
-                                                        .foregroundStyle(post.userRating >= rating ? .yellow : .gray)
+                                                        .foregroundStyle(post.userRating >= rating ? .yellow : .white)
                                                         .shadow(radius: 2)
                                                         .padding(.bottom)
                                                 }

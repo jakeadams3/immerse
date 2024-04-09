@@ -13,7 +13,7 @@ class FeedService {
     func fetchPosts() async throws -> [Post] {
         self.posts = try await FirestoreConstants
             .PostsCollection
-            .order(by: "timestamp", descending: true)
+//            .order(by: "timestamp", descending: true)
             .getDocuments(as: Post.self)
         
         await withThrowingTaskGroup(of: Void.self) { group in
