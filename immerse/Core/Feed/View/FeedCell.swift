@@ -192,6 +192,27 @@ struct FeedCell: View {
                                         Text("\(post.ratings) ratings")
                                             .padding(.top)
                                         
+                                        // Add the rating bar
+                                        HStack {
+                                            ZStack(alignment: .leading) {
+                                                Rectangle()
+                                                    .fill(Color.gray.opacity(0.3))
+                                                    .frame(height: 8)
+                                                
+                                                Rectangle()
+                                                    .fill(Color.yellow)
+                                                    .frame(width: calculateBarWidth(post.averageRating), height: 8)
+                                                    .animation(.linear(duration: 0.3), value: calculateBarWidth(post.averageRating))
+                                                
+                                            }
+                                            .cornerRadius(4)
+                                            .padding(.horizontal)
+                                            
+                                            Text(formatAverageRating(post.averageRating))
+                                                .font(.title2)
+                                                .padding(.trailing)
+                                        }
+                                        
                                         HStack {
                                             ForEach(1...5, id: \.self) { rating in
                                                 Button {
@@ -206,10 +227,8 @@ struct FeedCell: View {
                                                 }
                                             }
                                             
-                                            Text(formatAverageRating(post.averageRating))
-                                                .font(.title2)
-                                                .padding([.trailing, .bottom])
                                         }
+                                        .padding(.horizontal)
                                     }
                                     .tint(.clear)
                                     .glassBackgroundEffect()
@@ -289,6 +308,15 @@ struct FeedCell: View {
         }
         let formattedRating = String(format: "%.2f", numerator / denominator)
         return formattedRating
+    }
+    
+    func calculateBarWidth(_ averageRating: String) -> CGFloat {
+        let components = averageRating.components(separatedBy: "/")
+        guard let numerator = Double(components[0]), let denominator = Double(components[1]), denominator != 0 else {
+            return 0
+        }
+        let percentage = numerator / denominator / 5
+        return percentage * 360 // Adjust the multiplier as needed to set the maximum width of the bar
     }
 }
 
