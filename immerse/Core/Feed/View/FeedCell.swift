@@ -312,11 +312,15 @@ struct FeedCell: View {
     private func calculateUpdatedAverageRating(adding rating: Int) -> String {
         let components = post.averageRating.components(separatedBy: "/")
         guard var numerator = Double(components[0]), var denominator = Double(components[1]) else {
-            return "0/0"
+            return "\(rating)/1"
         }
-        numerator += Double(rating)
-        denominator += 1
-        return "\(Int(numerator))/\(Int(denominator))"
+        if numerator == 0 && denominator == 1 {
+            return "\(rating)/1"
+        } else {
+            numerator += Double(rating)
+            denominator += 1
+            return "\(Int(numerator))/\(Int(denominator))"
+        }
     }
 
     private func calculateUpdatedAverageRating(removing rating: Int) -> String {

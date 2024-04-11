@@ -84,6 +84,7 @@
 		576F16AD2B0BC1F60071ACC7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AC2B0BC1F60071ACC7 /* FirebaseStorage */; };
 		576F16AF2B0BC1FE0071ACC7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 576F16AE2B0BC1FE0071ACC7 /* FirebaseAuth */; };
 		57997AFE2B7F1F3B00D8B9EB /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57997AFD2B7F1F3B00D8B9EB /* Config.plist */; };
+		57ABD36D2BC79B23003F6C4C /* LikedPostsGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ABD36C2BC79B23003F6C4C /* LikedPostsGridView.swift */; };
 		57D017A52B0C16A100276F16 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 57D017A42B0C16A100276F16 /* Kingfisher */; };
 		57DF93FE2B1AA963006814D9 /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */; };
 		57EA9BF52B89166700828CBE /* flatPlane.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 57EA9BF42B89166600828CBE /* flatPlane.usdz */; };
@@ -169,6 +170,7 @@
 		57531B5F2BBC70E300710ADF /* immerse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = immerse.entitlements; sourceTree = "<group>"; };
 		57531B602BBE4B1700710ADF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		57997AFD2B7F1F3B00D8B9EB /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
+		57ABD36C2BC79B23003F6C4C /* LikedPostsGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPostsGridView.swift; sourceTree = "<group>"; };
 		57DF93FD2B1AA963006814D9 /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
 		57EA9BF42B89166600828CBE /* flatPlane.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = flatPlane.usdz; sourceTree = "<group>"; };
 		57EA9BF62B898E9B00828CBE /* SpatialVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialVideoPlayer.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 				574E9B942B098B34005F3C86 /* ProfileView.swift */,
 				574E9B952B098B34005F3C86 /* ProfileHeaderView.swift */,
 				574E9B962B098B34005F3C86 /* PostGridView.swift */,
+				57ABD36C2BC79B23003F6C4C /* LikedPostsGridView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -793,6 +796,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57ABD36D2BC79B23003F6C4C /* LikedPostsGridView.swift in Sources */,
 				574E9BFF2B098B34005F3C86 /* RegistrationView.swift in Sources */,
 				574E9C022B098B34005F3C86 /* AuthService.swift in Sources */,
 				574E9C132B098B34005F3C86 /* Firestore+Timestamp.swift in Sources */,
