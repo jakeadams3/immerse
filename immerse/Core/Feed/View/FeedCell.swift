@@ -293,12 +293,40 @@ struct FeedCell: View {
         Task {
             if post.userRating == rating {
                 post.userRating = 0
+                post.ratings -= 1
+                post.averageRating = calculateUpdatedAverageRating(removing: rating)
                 await viewModel.removePostRating(post)
             } else {
+                if post.userRating != 0 {
+                    post.ratings -= 1
+                    post.averageRating = calculateUpdatedAverageRating(removing: post.userRating)
+                }
                 post.userRating = rating
+                post.ratings += 1
+                post.averageRating = calculateUpdatedAverageRating(adding: rating)
                 await viewModel.ratePost(post, rating: rating)
             }
         }
+    }
+
+    private func calculateUpdatedAverageRating(adding rating: Int) -> String {
+        let components = post.averageRating.components(separatedBy: "/")
+        guard var numerator = Double(components[0]), var denominator = Double(components[1]) else {
+            return "0/0"
+        }
+        numerator += Double(rating)
+        denominator += 1
+        return "\(Int(numerator))/\(Int(denominator))"
+    }
+
+    private func calculateUpdatedAverageRating(removing rating: Int) -> String {
+        let components = post.averageRating.components(separatedBy: "/")
+        guard var numerator = Double(components[0]), var denominator = Double(components[1]) else {
+            return "0/0"
+        }
+        numerator -= Double(rating)
+        denominator -= 1
+        return "\(Int(numerator))/\(Int(denominator))"
     }
     
     func formatAverageRating(_ averageRating: String) -> String {

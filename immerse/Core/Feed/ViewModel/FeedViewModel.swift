@@ -256,32 +256,30 @@ extension FeedViewModel {
     }
     
     func ratePost(_ post: Post, rating: Int) async {
-        guard let index = posts.firstIndex(where: { $0.id == post.id }) else { return }
-        
         do {
             try await postService.ratePost(post, rating: rating)
-            let updatedPost = try await postService.getUpdatedPostData(post)
-            posts[index].averageRating = updatedPost.averageRating
-            posts[index].ratings = updatedPost.ratings
         } catch {
             print("DEBUG: Failed to rate post with error \(error.localizedDescription)")
-            // Revert the userRating to the previous value if the rating update fails
-            posts[index].userRating = post.userRating
+            // Revert the changes if the rating update fails
+            if let index = posts.firstIndex(where: { $0.id == post.id }) {
+                posts[index].userRating = post.userRating
+                posts[index].ratings = post.ratings
+                posts[index].averageRating = post.averageRating
+            }
         }
     }
-    
+
     func removePostRating(_ post: Post) async {
-        guard let index = posts.firstIndex(where: { $0.id == post.id }) else { return }
-        
         do {
             try await postService.removePostRating(post)
-            let updatedPost = try await postService.getUpdatedPostData(post)
-            posts[index].averageRating = updatedPost.averageRating
-            posts[index].ratings = updatedPost.ratings
         } catch {
             print("DEBUG: Failed to remove post rating with error \(error.localizedDescription)")
-            // Revert the userRating to the previous value if the rating removal fails
-            posts[index].userRating = post.userRating
+            // Revert the changes if the rating removal fails
+            if let index = posts.firstIndex(where: { $0.id == post.id }) {
+                posts[index].userRating = post.userRating
+                posts[index].ratings = post.ratings
+                posts[index].averageRating = post.averageRating
+            }
         }
     }
     
