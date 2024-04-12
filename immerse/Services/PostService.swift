@@ -26,6 +26,29 @@ class PostService {
         
         return posts
     }
+    
+    func fetchLikedPosts(user: User) async throws -> [Post] {
+        let likedPostsSnapshot = try await FirestoreConstants
+            .UserCollection
+            .document(user.id)
+            .collection("user-likes")
+            .getDocuments()
+
+        var likedPosts: [Post] = []
+
+        for document in likedPostsSnapshot.documents {
+            let postId = document.documentID
+            if var post = try? await fetchPost(postId: postId) {
+                // Fetch the user data associated with the post
+                let ownerUid = post.ownerUid
+                let user = try await UserService().fetchUser(withUid: ownerUid)
+                post.user = user
+                likedPosts.append(post)
+            }
+        }
+
+        return likedPosts
+    }
 }
 
 // MARK: - Likes

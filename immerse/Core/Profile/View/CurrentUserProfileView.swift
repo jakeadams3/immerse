@@ -11,11 +11,11 @@ struct CurrentUserProfileView: View {
     let user: User
     @StateObject var profileViewModel: ProfileViewModel
     @State private var showingDeleteAlert = false
+    @State private var selectedTab = 0
     
     init(authService: AuthService, user: User) {
         self.authService = authService
         self.user = user
-        
         let viewModel = ProfileViewModel(user: user,
                                          userService: UserService(),
                                          postService: PostService())
@@ -29,16 +29,25 @@ struct CurrentUserProfileView: View {
                     ProfileHeaderView(viewModel: profileViewModel)
                         .padding(.top)
                     
-                    VStack {
-                        PostGridView(viewModel: profileViewModel)
-                        Spacer(minLength: 1350) // Add a Spacer at the bottom
+                    Picker("", selection: $selectedTab) {
+                        Text("Posts").tag(0)
+                        Text("Likes").tag(1)
                     }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
                     
+                    VStack {
+                        if selectedTab == 0 {
+                            PostGridView(viewModel: profileViewModel)
+                        } else {
+                            LikedPostsGridView(viewModel: profileViewModel)
+                        }
+                        
+                    }
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    
                     Button("Delete Account") {
                         showingDeleteAlert = true
                     }
@@ -50,7 +59,6 @@ struct CurrentUserProfileView: View {
                     .font(.title3)
                     .foregroundColor(.white)
                 }
-                
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Sign Out") {
                         authService.signout()
@@ -77,9 +85,10 @@ struct CurrentUserProfileView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .task { await profileViewModel.fetchUserPosts() }
+        .task { await profileViewModel.fetchLikedPosts() } // Add this line
         .task { await profileViewModel.fetchUserStats() }
     }
-
+    
     private func deleteAccount() {
         Task {
             do {

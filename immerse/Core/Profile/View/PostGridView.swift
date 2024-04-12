@@ -20,14 +20,13 @@ struct PostGridView: View {
     ]
     
     var body: some View {
-        GeometryReader { geometry in
-            let width = (geometry.size.width / 3) - 2
+        ScrollView {
             LazyVGrid(columns: items, spacing: 2) {
                 ForEach(viewModel.posts) { post in
                     KFImage(URL(string: post.thumbnailUrl))
                         .resizable()
                         .scaledToFill()
-                        .frame(width: width, height: 450)
+                        .frame(height: 450)
                         .clipped()
                         .contentShape(Rectangle())
                         .onTapGesture { selectedPost = post }
@@ -37,21 +36,20 @@ struct PostGridView: View {
                 FeedView(posts: [post])
                     .overlay(
                         ZStack {
-                        HStack {
-                            Button(action: {
-                                selectedPost = nil // This will dismiss the full-screen cover
-                            }) {
-                                Image(systemName: "arrow.backward")
-                                    .imageScale(.large)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
-                                    .shadow(radius: 4)
-                                    .padding(32)
+                            HStack {
+                                Button(action: {
+                                    selectedPost = nil // This will dismiss the full-screen cover
+                                }) {
+                                    Image(systemName: "arrow.backward")
+                                        .imageScale(.large)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                        .shadow(radius: 4)
+                                        .padding(32)
+                                }
+                                .offset(z: 1)
+                                Spacer()
                             }
-                            .offset(z: 1)
-                            Spacer()
-                        }
-
                         }
                         , alignment: .topLeading
                     )

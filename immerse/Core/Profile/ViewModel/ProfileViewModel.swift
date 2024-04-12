@@ -13,6 +13,8 @@ class ProfileViewModel: ObservableObject {
     @Published var posts = [Post]()
     @Published var user: User
     @Published var isBlocked: Bool = false
+    @Published var likedPosts = [Post]()
+    @Published var isLoadingLikedPosts = false
     
     private let userService: UserService
     private let postService: PostService
@@ -82,6 +84,21 @@ extension ProfileViewModel {
             print("DEBUG: Failed to fetch posts with error: \(error.localizedDescription)")
         }
     }
+    
+    func fetchLikedPosts() async {
+            isLoadingLikedPosts = true // Set loading state to true before fetching
+            
+            do {
+                var fetchedPosts = try await postService.fetchLikedPosts(user: user)
+                // Sort fetchedPosts by timestamp in descending order (newest first)
+                fetchedPosts.sort { $0.timestamp.dateValue() > $1.timestamp.dateValue() }
+                self.likedPosts = fetchedPosts
+            } catch {
+                print("DEBUG: Failed to fetch liked posts with error: \(error.localizedDescription)")
+            }
+            
+            isLoadingLikedPosts = false // Set loading state to false after fetching
+        }
 }
 
 extension ProfileViewModel {
