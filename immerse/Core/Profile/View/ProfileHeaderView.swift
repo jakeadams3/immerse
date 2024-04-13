@@ -72,7 +72,6 @@ struct ProfileHeaderView: View {
                     .fontWeight(.semibold)
             }
             
-            Divider()
         }
         .fullScreenCover(isPresented: $showEditProfile) {
             EditProfileView(user: $viewModel.user)

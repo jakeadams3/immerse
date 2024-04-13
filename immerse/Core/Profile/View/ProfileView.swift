@@ -30,6 +30,9 @@ struct ProfileView: View {
                     VStack(spacing: 2) {
                         ProfileHeaderView(viewModel: viewModel)
                             .tint(.clear)
+                            .padding(.bottom, 48)
+                        
+                        Divider()
                         
                         if viewModel.isBlocked {
                             // Display blurred view with overlay text for blocked user
@@ -47,7 +50,6 @@ struct ProfileView: View {
                                 // Display PostGridView normally for non-blocked user
                                 PostGridView(viewModel: viewModel)
                                     .tint(.clear)
-                                Spacer(minLength: 1350) // Add a Spacer at the bottom
                             }
                         }
                     }
@@ -65,6 +67,7 @@ struct ProfileView: View {
                     Image(systemName: "arrow.backward")
                         .foregroundStyle(.black)
                 }
+                .tint(.white)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 if !user.isCurrentUser {
@@ -87,6 +90,7 @@ struct ProfileView: View {
                             await viewModel.checkBlocked()
                         }
                     }
+                    .tint(.white)
                 }
             }
         }

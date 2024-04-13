@@ -11,14 +11,18 @@ struct FeedView: View {
     @StateObject var viewModel: FeedViewModel
     @State private var scrollPosition: String?
     @State private var activePostId: String?
-    
-    init(posts: [Post] = []) {
+    var showBackButton: Bool = false
+    var onBackButtonTapped: (() -> Void)? // Closure to handle back button action
+
+    init(posts: [Post] = [], showBackButton: Bool = false, onBackButtonTapped: (() -> Void)? = nil) {
         let viewModel = FeedViewModel(feedService: FeedService(),
                                       postService: PostService(),
                                       posts: posts)
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.showBackButton = showBackButton
+        self.onBackButtonTapped = onBackButtonTapped
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack(alignment: .topTrailing) {
@@ -42,7 +46,7 @@ struct FeedView: View {
                     }
                     .scrollTargetLayout()
                 }
-                
+
                 Button {
                     Task {
                         await viewModel.refreshFeed()
@@ -58,6 +62,23 @@ struct FeedView: View {
                 }
                 .tint(.clear)
                 .offset(z: 1)
+
+                if showBackButton {
+                    HStack {
+                        Button(action: {
+                            onBackButtonTapped?()
+                        }) {
+                            Image(systemName: "arrow.backward")
+                                .imageScale(.large)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
+                                .shadow(radius: 4)
+                                .padding(32)
+                        }
+                        .offset(z: 1)
+                        Spacer()
+                    }
+                }
             }
             .background(.clear)
             .overlay {

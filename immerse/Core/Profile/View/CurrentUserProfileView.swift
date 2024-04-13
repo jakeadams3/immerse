@@ -31,10 +31,16 @@ struct CurrentUserProfileView: View {
                     
                     Picker("", selection: $selectedTab) {
                         Text("Posts").tag(0)
+                            .font(.title3)
                         Text("Likes").tag(1)
+                            .font(.title3)
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    .padding()
+                    .padding(.horizontal, 850)
+                    .padding(.vertical)
+                    .padding(.top, 15)
+                    
+                    Divider()
                     
                     VStack {
                         if selectedTab == 0 {

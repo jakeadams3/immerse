@@ -44,29 +44,12 @@ struct LikedPostsGridView: View {
             }
         }
         .fullScreenCover(item: $selectedPost) { post in
-            FeedView(posts: [post])
-                .overlay(
-                    ZStack {
-                        HStack {
-                            Button(action: {
-                                selectedPost = nil // This will dismiss the full-screen cover
-                            }) {
-                                Image(systemName: "arrow.backward")
-                                    .imageScale(.large)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
-                                    .shadow(radius: 4)
-                                    .padding(32)
-                            }
-                            .offset(z: 1)
-                            Spacer()
-                        }
-                    }
-                    , alignment: .topLeading
-                )
-                .onDisappear {
-                    player.replaceCurrentItem(with: nil)
-                }
+            FeedView(posts: [post], showBackButton: true, onBackButtonTapped: {
+                selectedPost = nil
+            })
+            .onDisappear {
+                player.replaceCurrentItem(with: nil)
+            }
         }
     }
 }
