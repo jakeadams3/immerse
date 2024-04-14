@@ -29,16 +29,37 @@ struct CurrentUserProfileView: View {
                     ProfileHeaderView(viewModel: profileViewModel)
                         .padding(.top)
                     
-                    Picker("", selection: $selectedTab) {
-                        Text("Posts").tag(0)
-                            .font(.title3)
-                        Text("Likes").tag(1)
-                            .font(.title3)
+                    HStack(spacing: 20) {
+                        Button("Posts") {
+                            selectedTab = 0
+                        }
+                        .background(selectedTab == 0 ? Color.white : Color.clear)
+                        .cornerRadius(40)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 40)
+                                .stroke(Color.white, lineWidth: 2)
+                        )
+                        .font(.title3)
+                        .foregroundColor(selectedTab == 0 ? .black : .gray)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 20)
+                        
+                        Button("Likes") {
+                            selectedTab = 1
+                        }
+                        .background(selectedTab == 1 ? Color.white : Color.clear)
+                        .cornerRadius(40)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 40)
+                                .stroke(Color.white, lineWidth: 2)
+                        )
+                        .font(.title3)
+                        .foregroundColor(selectedTab == 1 ? .black : .gray)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 20)
                     }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding(.horizontal, 850)
-                    .padding(.vertical)
-                    .padding(.top, 15)
+                    .padding(.horizontal)
+                    .padding(.vertical, 15)
                     
                     Divider()
                     
