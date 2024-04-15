@@ -40,7 +40,7 @@ struct CurrentUserProfileView: View {
                                 .stroke(Color.white, lineWidth: 2)
                         )
                         .font(.title3)
-                        .foregroundColor(selectedTab == 0 ? .black : .gray)
+                        .foregroundColor(selectedTab == 0 ? .black : .white)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 20)
                         
@@ -54,7 +54,7 @@ struct CurrentUserProfileView: View {
                                 .stroke(Color.white, lineWidth: 2)
                         )
                         .font(.title3)
-                        .foregroundColor(selectedTab == 1 ? .black : .gray)
+                        .foregroundColor(selectedTab == 1 ? .black : .white)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 20)
                     }

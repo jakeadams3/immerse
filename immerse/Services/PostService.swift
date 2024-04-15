@@ -33,21 +33,36 @@ class PostService {
             .document(user.id)
             .collection("user-likes")
             .getDocuments()
-
-        var likedPosts: [Post] = []
-
+        
+        var likedPostsWithTimestamp: [(post: Post, timestamp: Timestamp)] = []
+        var likedPostsWithoutTimestamp: [Post] = []
+        
         for document in likedPostsSnapshot.documents {
             let postId = document.documentID
-            if var post = try? await fetchPost(postId: postId) {
-                // Fetch the user data associated with the post
+            if let post = try? await fetchPost(postId: postId) {
                 let ownerUid = post.ownerUid
                 let user = try await UserService().fetchUser(withUid: ownerUid)
-                post.user = user
-                likedPosts.append(post)
+                var mutablePost = post
+                mutablePost.user = user
+                
+                if let timestamp = document.data()["timestamp"] as? Timestamp {
+                    likedPostsWithTimestamp.append((post: mutablePost, timestamp: timestamp))
+                } else {
+                    likedPostsWithoutTimestamp.append(mutablePost)
+                }
             }
         }
-
-        return likedPosts
+        
+        // Sort likedPostsWithTimestamp based on the timestamp
+        likedPostsWithTimestamp.sort { $0.timestamp.dateValue() > $1.timestamp.dateValue() }
+        
+        // Extract the sorted posts from likedPostsWithTimestamp
+        let sortedPostsWithTimestamp = likedPostsWithTimestamp.map { $0.post }
+        
+        // Combine the sorted posts with timestamp and the posts without timestamp
+        let allLikedPosts = sortedPostsWithTimestamp + likedPostsWithoutTimestamp
+        
+        return allLikedPosts
     }
 }
 
@@ -57,9 +72,11 @@ extension PostService {
     func likePost(_ post: Post) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
+        let timestamp = Timestamp(date: Date())
+        
         async let _ = try FirestoreConstants.PostsCollection.document(post.id).collection("post-likes").document(uid).setData([:])
         async let _ = try FirestoreConstants.PostsCollection.document(post.id).updateData(["likes": post.likes + 1])
-        async let _ = try FirestoreConstants.UserCollection.document(uid).collection("user-likes").document(post.id).setData([:])
+        async let _ = try FirestoreConstants.UserCollection.document(uid).collection("user-likes").document(post.id).setData(["timestamp": timestamp])
         
         NotificationManager.shared.uploadLikeNotification(toUid: post.ownerUid, post: post)
     }
