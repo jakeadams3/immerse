@@ -88,13 +88,18 @@ struct FeedCell: View {
                                     .fontWeight(.semibold)
                                     .foregroundStyle(.white)
                                 
+                                Text(formattedTimestamp)
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                
                                 Text(post.caption)
                                     .lineLimit(expandCaption ? 50 : 2)
-                                
+                                                                
                             }
                             .onTapGesture { withAnimation(.snappy) { expandCaption.toggle() } }
                             .font(.body)
                             .foregroundStyle(.white)
+                            .shadow(color: .black.opacity(0.7), radius: 4)
                             .padding()
                             
                             Spacer()
@@ -349,6 +354,41 @@ struct FeedCell: View {
         }
         let percentage = numerator / denominator / 5
         return percentage * 360 // Adjust the multiplier as needed to set the maximum width of the bar
+    }
+    
+    private var formattedTimestamp: String {
+        let timestamp = post.timestamp
+        
+        let currentDate = Date()
+        let postDate = timestamp.dateValue()
+        let calendar = Calendar.current
+        
+        let components = calendar.dateComponents([.day, .hour, .minute], from: postDate, to: currentDate)
+        
+        if let days = components.day, days >= 7 {
+            let dateFormatter = DateFormatter()
+            
+            let postYear = calendar.component(.year, from: postDate)
+            let currentYear = calendar.component(.year, from: currentDate)
+            
+            if postYear == currentYear {
+                dateFormatter.dateFormat = "M/d"
+                return "on \(dateFormatter.string(from: postDate))"
+            } else {
+                dateFormatter.dateFormat = "M/d/yy"
+                return "on \(dateFormatter.string(from: postDate))"
+            }
+            
+            return dateFormatter.string(from: postDate)
+        } else if let days = components.day, days >= 1 {
+            return "\(days)d ago"
+        } else if let hours = components.hour, hours >= 1 {
+            return "\(hours)h ago"
+        } else if let minutes = components.minute, minutes >= 1 {
+            return "\(minutes)min ago"
+        } else {
+            return "Just Now"
+        }
     }
 }
 
