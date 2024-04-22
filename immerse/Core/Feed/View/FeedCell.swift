@@ -243,12 +243,12 @@ struct FeedCell: View {
                 }
                 .offset(z: 1)
                 .ornament(
-                    visibility: showComments ? .visible : .hidden,
+                    visibility: isActive && showComments ? .visible : .hidden,
                     attachmentAnchor: .scene(.top)
                 ) {
                     ZStack {
                         Rectangle()
-                            .frame(width: 1000, height: 500)
+                            .frame(width: 1000, height: 570)
                             .foregroundStyle(.clear)
                         
                         CommentsView(post: post)
