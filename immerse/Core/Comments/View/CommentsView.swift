@@ -51,7 +51,7 @@ struct CommentsView: View {
         .overlay {
             if viewModel.showEmptyView {
                 ContentUnavailableView("No comments yet. Add yours now!", systemImage: "exclamationmark.bubble")
-                    .foregroundStyle(.gray)
+                    .foregroundStyle(.white)
             }
         }
         .task { await viewModel.fetchComments() }

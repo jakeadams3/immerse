@@ -127,7 +127,6 @@ struct FeedCell: View {
                                         }
                                         
                                         Button {
-                                            player.pause()
                                             showComments.toggle()
                                         } label: {
                                             FeedCellActionButtonView(imageName: "ellipsis.bubble",
@@ -243,20 +242,34 @@ struct FeedCell: View {
                     }
                 }
                 .offset(z: 1)
-                .fullScreenCover(isPresented: $showComments) {
-                    NavigationView {
+                .ornament(
+                    visibility: showComments ? .visible : .hidden,
+                    attachmentAnchor: .scene(.top)
+                ) {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 1000, height: 500)
+                            .foregroundStyle(.clear)
+                        
                         CommentsView(post: post)
-                            .navigationBarTitle("Comments", displayMode: .inline)
-                            .navigationBarItems(leading: Button(action: {
-                                showComments = false // This will dismiss the full-screen cover
-                            }) {
-                                Image(systemName: "arrow.backward") // Using a system icon for the back button
-                                    .imageScale(.large)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
-                                    .shadow(radius: 4)
-                            })
                             .tint(.clear)
+                            .glassBackgroundEffect()
+                        
+                        VStack {
+                            HStack {
+                                Button(action: {
+                                    showComments = false
+                                }) {
+                                    Image(systemName: "xmark")
+                                        .foregroundColor(.white)
+                                        .padding()
+                                }
+                                .tint(.clear)
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                        .padding(8)
                     }
                 }
                 .onTapGesture {
