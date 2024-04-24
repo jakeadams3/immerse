@@ -22,8 +22,7 @@ struct UploadPostView: View {
                     .font(.largeTitle)
                     .padding(.top)
                 
-                HStack {
-                    Spacer(minLength: 200)
+                HStack(alignment: .center) {
                     
                     TextField("Enter your caption...", text: $viewModel.caption)
                         .textFieldStyle(.roundedBorder)
@@ -31,7 +30,6 @@ struct UploadPostView: View {
                         .fontWeight(.semibold)
                         .padding(.bottom, 50)
                     
-                    Spacer(minLength: 200)
                 }
                 
                 Text("Thumbnail:")

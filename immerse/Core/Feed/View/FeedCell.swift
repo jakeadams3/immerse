@@ -68,6 +68,7 @@ struct FeedCell: View {
                         player.pause()
                         player.replaceCurrentItem(with: nil)
                     }
+                    .padding(.bottom, 1)
                     .containerRelativeFrame([.horizontal, .vertical])
             }
             

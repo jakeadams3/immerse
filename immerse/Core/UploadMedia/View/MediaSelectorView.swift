@@ -12,13 +12,13 @@ struct MediaSelectorView: View {
     @StateObject var viewModel = UploadPostViewModel(service: UploadPostService())
     @State private var showImagePicker = false
     @Binding var tabIndex: Int
-    
+
     var body: some View {
         NavigationStack {
             VStack {
                 if let movie = viewModel.mediaPreview {
                     SpatialVideoPlayerRepresentable(player: player, videoURL: movie.url.absoluteString)
-                        .scaleEffect(0.9)
+                        .scaleEffect(0.85)
                         .onAppear {
                             let playerItem = AVPlayerItem(url: movie.url)
                             NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: playerItem, queue: .main) { _ in
@@ -46,8 +46,8 @@ struct MediaSelectorView: View {
             .onAppear {
                 if viewModel.selectedMediaForUpload == nil { showImagePicker.toggle() }
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+            .overlay(
+                HStack {
                     Button {
                         player.pause()
                         player = AVPlayer(playerItem: nil)
@@ -58,17 +58,22 @@ struct MediaSelectorView: View {
                             .imageScale(.large)
                     }
                     .foregroundStyle(.black)
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
+                    .padding()
+                    
+                    Spacer()
+                    
                     Button("Next") {
                         viewModel.setMediaItemForUpload()
                     }
                     .disabled(viewModel.mediaPreview == nil)
                     .font(.headline)
                     .foregroundStyle(.black)
+                    .padding()
                 }
-            }
+                .padding()
+                .offset(z: 1)
+                ,alignment: .top
+            )
             .navigationDestination(item: $viewModel.selectedMediaForUpload, destination: { movie in
                 UploadPostView(movie: movie, viewModel: viewModel, tabIndex: $tabIndex)
             })

@@ -36,22 +36,23 @@ struct SpatialVideoPlayer: View {
     }
     
     var body: some View {
-        RealityView { content in
-            guard let url = URL(string: videoURL) else {
-                return
+        GeometryReader { geometry in
+            RealityView { content in
+                guard let url = URL(string: videoURL) else {
+                    return
+                }
+                let asset = AVURLAsset(url: url)
+                let playerItem = AVPlayerItem(asset: asset)
+                let videoPlayerComponent = VideoPlayerComponent(avPlayer: player)
+                let videoEntity = Entity()
+                videoEntity.components[VideoPlayerComponent.self] = videoPlayerComponent
+                videoEntity.position = SIMD3<Float>(0.3864, 0, 0.0001)
+                videoEntity.scale = SIMD3<Float>(0.99, 0.99, 1)
+                content.add(videoEntity)
             }
-            
-            let asset = AVURLAsset(url: url)
-            let playerItem = AVPlayerItem(asset: asset)
-            
-            let videoPlayerComponent = VideoPlayerComponent(avPlayer: player)
-            let videoEntity = Entity()
-            videoEntity.components[VideoPlayerComponent.self] = videoPlayerComponent
-            videoEntity.position = SIMD3<Float>(0, 0, 0.0001)
-            videoEntity.scale = SIMD3<Float>(0.99, 0.99, 1)
-            content.add(videoEntity)
+            .scaledToFit()
+            .scaleEffect(x: geometry.size.width / 2400, y: geometry.size.height / 1350)
         }
-        .scaledToFit()
     }
 }
 
